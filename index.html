@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" class="scroll-smooth">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Descubra o Norte do Paraná — Guia Turístico & Comparador</title>
+  <title>Descubra o Norte do Paraná — Guia Turístico, Preços & Comparador 2026</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -26,239 +26,400 @@
     }
   </script>
   <style>
-    body { background-color: #FAF8F5; color: #262322; }
-    .no-scrollbar::-webkit-scrollbar { display: none; }
-    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    body {
+      background-color: #FAF8F5;
+      color: #262322;
+    }
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    @keyframes fadeInScale {
+      from { opacity: 0; transform: scale(0.97) translateY(8px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    .animate-modal {
+      animation: fadeInScale 0.22s ease-out forwards;
+    }
   </style>
 </head>
-<body class="antialiased selection:bg-emeraldMid selection:text-white">
+<body class="antialiased selection:bg-emeraldMid selection:text-white flex flex-col min-h-screen">
 
-  <!-- Navbar -->
-  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-stone-200 shadow-sm">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-      <div class="flex items-center gap-2.5">
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-emeraldDeep to-coffeeDark flex items-center justify-center text-white shadow">
-          <i data-lucide="compass" class="w-5 h-5"></i>
+  <!-- Barra de Navegação Superior -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-stone-200/90 shadow-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-3">
+      <a href="#" onclick="resetAllAndScrollTop(event)" class="flex items-center gap-2.5 group">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-emeraldDeep to-coffeeDark flex items-center justify-center text-white shadow-sm group-hover:scale-105 transition">
+          <i data-lucide="compass" class="w-5 h-5 text-goldAccent"></i>
         </div>
         <div>
-          <span class="font-extrabold text-lg tracking-tight text-emeraldDeep block leading-none">Norte<span class="text-terracotta">PR</span></span>
-          <span class="text-[11px] font-medium text-coffeeMid uppercase tracking-wider">Guia & Comparador</span>
+          <span class="font-extrabold text-lg tracking-tight text-emeraldDeep block leading-none">
+            Norte<span class="text-terracotta">PR</span>
+          </span>
+          <span class="text-[10px] font-bold text-coffeeMid uppercase tracking-widest">
+            Guia & Comparador 2026
+          </span>
         </div>
-      </div>
+      </a>
 
-      <div class="flex items-center gap-3">
-        <button onclick="scrollToComparator()" class="hidden md:flex items-center gap-1.5 text-sm font-semibold text-coffeeDark hover:text-terracotta px-3 py-2 rounded-lg transition">
-          <i data-lucide="scale" class="w-4 h-4"></i> Comparador Rápido
+      <nav class="hidden lg:flex items-center gap-1 text-sm font-semibold text-coffeeDark">
+        <button onclick="navigateToTab('atracoes')" class="px-3 py-2 rounded-lg hover:bg-stone-100 hover:text-emeraldDeep transition">
+          Pontos Turísticos
         </button>
-        <button onclick="toggleDrawer()" class="relative flex items-center gap-2 bg-emeraldDeep hover:bg-emeraldMid text-white px-4 py-2 rounded-xl font-semibold text-sm shadow transition">
-          <i data-lucide="briefcase" class="w-4 h-4"></i>
+        <button onclick="navigateToTab('hoteis')" class="px-3 py-2 rounded-lg hover:bg-stone-100 hover:text-emeraldDeep transition">
+          Hotéis & Pousadas
+        </button>
+        <button onclick="navigateToTab('restaurantes')" class="px-3 py-2 rounded-lg hover:bg-stone-100 hover:text-emeraldDeep transition">
+          Gastronomia & Cafés
+        </button>
+        <button onclick="scrollToComparator()" class="px-3 py-2 rounded-lg hover:bg-stone-100 hover:text-terracotta transition flex items-center gap-1.5">
+          <i data-lucide="scale" class="w-4 h-4 text-terracotta"></i> Comparador Side-by-Side
+        </button>
+      </nav>
+
+      <div class="flex items-center gap-2.5">
+        <button onclick="scrollToComparator()" class="lg:hidden flex items-center gap-1.5 text-xs font-bold text-coffeeDark bg-stone-100 hover:bg-stone-200 px-3 py-2 rounded-xl transition">
+          <i data-lucide="scale" class="w-3.5 h-3.5 text-terracotta"></i>
+          <span class="hidden sm:inline">Comparar</span>
+        </button>
+        <button onclick="toggleDrawer(true)" class="relative flex items-center gap-2 bg-emeraldDeep hover:bg-emeraldMid text-white px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm shadow-sm transition active:scale-95">
+          <i data-lucide="briefcase" class="w-4 h-4 text-goldAccent"></i>
           <span>Meu Roteiro</span>
-          <span id="cart-badge" class="bg-terracotta text-white text-xs font-bold px-2 py-0.5 rounded-full">0</span>
+          <span id="cart-badge" class="bg-terracotta text-white text-xs font-extrabold px-2 py-0.5 rounded-full min-w-[22px] text-center">0</span>
         </button>
       </div>
     </div>
   </header>
 
-  <!-- Hero Section -->
+  <!-- Seção Hero & Busca Global Inteligente -->
   <section class="relative bg-gradient-to-br from-emeraldDeep via-[#234E3C] to-coffeeDark text-white overflow-hidden">
     <div class="absolute inset-0 opacity-15 bg-[url('https://images.unsplash.com/photo-1511537190424-bbbab87ac5eb?auto=format&fit=crop&w=1600&q=80')] bg-cover bg-center"></div>
-    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 md:py-20 text-center">
-      <span class="inline-flex items-center gap-1.5 bg-white/15 backdrop-blur-sm border border-white/20 text-goldAccent text-xs font-bold uppercase tracking-widest px-3.5 py-1.5 rounded-full mb-4">
-        <i data-lucide="coffee" class="w-3.5 h-3.5"></i> Rota do Café • Parques • Gastronomia
-      </span>
-      <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight mb-4">
+    <div class="absolute inset-0 bg-gradient-to-t from-coffeeDark/60 via-transparent to-emeraldDeep/40"></div>
+
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16 text-center">
+      <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 text-goldAccent text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full mb-4">
+        <i data-lucide="coffee" class="w-3.5 h-3.5"></i>
+        <span>Rota do Café • Ecoturismo • Gastronomia • Hospedagem</span>
+      </div>
+
+      <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight mb-3 leading-tight">
         Descubra o Norte do Paraná
       </h1>
-      <p class="max-w-2xl mx-auto text-stone-200 text-base sm:text-lg mb-8">
-        Explore atrações históricas, parques exuberantes e compare preços reais de ingressos, hotéis e restaurantes em Londrina, Maringá, Apucarana e região.
+      <p class="max-w-2xl mx-auto text-stone-200 text-sm sm:text-base mb-7 leading-relaxed">
+        Pesquise atrações, compare preços atualizados de diárias, ingressos e cafés coloniais em Londrina, Maringá, Apucarana, Rolândia, Cambé e Cornélio Procópio.
       </p>
 
-      <!-- Search Bar -->
-      <div class="max-w-2xl mx-auto relative">
-        <div class="flex items-center bg-white rounded-2xl shadow-xl p-1.5 border border-stone-200">
-          <i data-lucide="search" class="w-5 h-5 text-stone-400 ml-3.5"></i>
+      <!-- Barra de Busca Global -->
+      <div class="max-w-3xl mx-auto">
+        <div class="flex items-center bg-white rounded-2xl shadow-2xl p-1.5 border border-white/30 focus-within:ring-4 focus-within:ring-goldAccent/30 transition">
+          <i data-lucide="search" class="w-5 h-5 text-stone-400 ml-3.5 shrink-0"></i>
           <input
             type="text"
             id="searchInput"
-            oninput="applyFilters()"
-            placeholder="Busque por Lago Igapó, Catedral, Maringá, hotel, café colonial..."
-            class="w-full px-3.5 py-2.5 text-stone-800 placeholder-stone-400 focus:outline-none text-sm sm:text-base"
+            oninput="handleSearchInput()"
+            placeholder="Busque por Lago Igapó, Catedral, Maringá, hotel executivo, café colonial, gratuito..."
+            class="w-full px-3.5 py-2.5 text-stone-800 placeholder-stone-400 focus:outline-none text-sm sm:text-base bg-transparent"
           />
-          <button onclick="clearFilters()" id="clearSearchBtn" class="hidden text-xs font-semibold text-stone-500 hover:text-terracotta px-3 py-1.5">
+          <button onclick="clearSearchOnly()" id="clearSearchBtn" class="hidden text-xs font-bold text-stone-500 hover:text-terracotta px-3 py-1.5 shrink-0 transition">
             Limpar
           </button>
+          <button onclick="scrollToResults()" class="bg-terracotta hover:bg-[#b85d42] text-white font-bold text-xs sm:text-sm px-4 sm:px-5 py-2.5 rounded-xl shrink-0 transition shadow-sm">
+            Pesquisar
+          </button>
+        </div>
+
+        <!-- Sugestões Rápidas (Tags) -->
+        <div class="flex flex-wrap items-center justify-center gap-2 mt-4">
+          <span class="text-[11px] font-semibold text-stone-300">Sugestões rápidas:</span>
+          <button onclick="quickSearch('Londrina')" class="text-xs bg-white/10 hover:bg-white/20 border border-white/15 px-3 py-1 rounded-full transition">📍 Londrina</button>
+          <button onclick="quickSearch('Maringá')" class="text-xs bg-white/10 hover:bg-white/20 border border-white/15 px-3 py-1 rounded-full transition">📍 Maringá</button>
+          <button onclick="quickSearch('Gratuito')" class="text-xs bg-white/10 hover:bg-white/20 border border-white/15 px-3 py-1 rounded-full transition">🎟️ Entrada Gratuita</button>
+          <button onclick="quickSearch('Café')" class="text-xs bg-white/10 hover:bg-white/20 border border-white/15 px-3 py-1 rounded-full transition">☕ Rota do Café</button>
+          <button onclick="quickSearch('Cachoeira')" class="text-xs bg-white/10 hover:bg-white/20 border border-white/15 px-3 py-1 rounded-full transition">🌿 Cachoeiras</button>
+          <button onclick="quickSearch('Executivo')" class="text-xs bg-white/10 hover:bg-white/20 border border-white/15 px-3 py-1 rounded-full transition">🏨 Hotel Executivo</button>
+        </div>
+      </div>
+
+      <!-- Indicadores Rápidos do Catálogo -->
+      <div class="grid grid-cols-3 max-w-xl mx-auto gap-3 mt-8 pt-6 border-t border-white/15 text-center">
+        <div>
+          <span class="block text-xl sm:text-2xl font-extrabold text-goldAccent" id="statAttractionsCount">10</span>
+          <span class="text-[11px] text-stone-300 uppercase tracking-wider font-semibold">Pontos Turísticos</span>
+        </div>
+        <div>
+          <span class="block text-xl sm:text-2xl font-extrabold text-goldAccent" id="statHotelsCount">8</span>
+          <span class="text-[11px] text-stone-300 uppercase tracking-wider font-semibold">Hotéis & Pousadas</span>
+        </div>
+        <div>
+          <span class="block text-xl sm:text-2xl font-extrabold text-goldAccent" id="statRestCount">8</span>
+          <span class="text-[11px] text-stone-300 uppercase tracking-wider font-semibold">Restaurantes & Cafés</span>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Main Navigation Tabs & Filters -->
-  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    
-    <!-- Primary Tabs -->
-    <div class="flex flex-wrap items-center justify-between gap-4 border-b border-stone-200 pb-4 mb-6">
+  <!-- Conteúdo Principal -->
+  <main id="resultsAnchor" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full">
+
+    <!-- Banner de Busca Global Multi-Aba (exibido quando há termo de pesquisa) -->
+    <div id="globalSearchBanner" class="hidden mb-6 bg-white border border-emeraldMid/30 rounded-2xl p-4 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+      <div class="flex items-center gap-2.5 text-sm">
+        <span class="w-8 h-8 rounded-xl bg-emeraldDeep/10 text-emeraldDeep flex items-center justify-center shrink-0">
+          <i data-lucide="sparkles" class="w-4 h-4"></i>
+        </span>
+        <div>
+          <p class="font-bold text-coffeeDark">
+            Resultados para "<span id="searchTermDisplay" class="text-terracotta"></span>" em todo o guia:
+          </p>
+          <p class="text-xs text-stone-500" id="globalCountsBreakdown"></p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <button onclick="toggleGlobalMode()" id="toggleGlobalBtn" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-emeraldDeep text-white hover:bg-emeraldMid transition">
+          Mostrar Todas as Categorias Juntas
+        </button>
+      </div>
+    </div>
+
+    <!-- Abas Principais + Ordenação + Faixa de Preço -->
+    <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-stone-200 pb-4 mb-6">
+      <!-- Abas -->
       <div class="flex gap-2 overflow-x-auto no-scrollbar" id="mainTabs">
-        <button onclick="setMainTab('atracoes')" data-tab="atracoes" class="tab-btn active flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-sm transition bg-emeraldDeep text-white shadow-sm">
-          <i data-lucide="map-pin" class="w-4 h-4"></i> Pontos Turísticos
+        <button onclick="setMainTab('atracoes')" data-tab="atracoes" class="tab-btn flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-sm transition bg-emeraldDeep text-white shadow-sm shrink-0">
+          <i data-lucide="map-pin" class="w-4 h-4"></i>
+          <span>Pontos Turísticos</span>
+          <span id="badge-tab-atracoes" class="text-[11px] bg-white/20 px-2 py-0.5 rounded-full">10</span>
         </button>
-        <button onclick="setMainTab('hoteis')" data-tab="hoteis" class="tab-btn flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-sm transition bg-white text-stone-700 hover:bg-stone-100 border border-stone-200">
-          <i data-lucide="bed-double" class="w-4 h-4"></i> Hotéis & Pousadas
+        <button onclick="setMainTab('hoteis')" data-tab="hoteis" class="tab-btn flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-sm transition bg-white text-stone-700 hover:bg-stone-100 border border-stone-200 shrink-0">
+          <i data-lucide="bed-double" class="w-4 h-4"></i>
+          <span>Hotéis & Pousadas</span>
+          <span id="badge-tab-hoteis" class="text-[11px] bg-stone-100 text-stone-600 px-2 py-0.5 rounded-full">8</span>
         </button>
-        <button onclick="setMainTab('restaurantes')" data-tab="restaurantes" class="tab-btn flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-sm transition bg-white text-stone-700 hover:bg-stone-100 border border-stone-200">
-          <i data-lucide="utensils" class="w-4 h-4"></i> Restaurantes & Cafés
+        <button onclick="setMainTab('restaurantes')" data-tab="restaurantes" class="tab-btn flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-sm transition bg-white text-stone-700 hover:bg-stone-100 border border-stone-200 shrink-0">
+          <i data-lucide="utensils" class="w-4 h-4"></i>
+          <span>Restaurantes & Cafés</span>
+          <span id="badge-tab-restaurantes" class="text-[11px] bg-stone-100 text-stone-600 px-2 py-0.5 rounded-full">8</span>
         </button>
       </div>
 
-      <!-- Price Filter -->
-      <div class="flex items-center gap-1.5 bg-white p-1 rounded-xl border border-stone-200">
-        <span class="text-xs font-semibold text-stone-500 px-2">Faixa:</span>
-        <button onclick="setPriceFilter('all')" data-price="all" class="price-btn px-2.5 py-1 rounded-lg text-xs font-bold bg-coffeeDark text-white">Todos</button>
-        <button onclick="setPriceFilter('$')" data-price="$" class="price-btn px-2.5 py-1 rounded-lg text-xs font-bold text-stone-600 hover:bg-stone-100">$</button>
-        <button onclick="setPriceFilter('$$')" data-price="$$" class="price-btn px-2.5 py-1 rounded-lg text-xs font-bold text-stone-600 hover:bg-stone-100">$$</button>
-        <button onclick="setPriceFilter('$$$')" data-price="$$$" class="price-btn px-2.5 py-1 rounded-lg text-xs font-bold text-stone-600 hover:bg-stone-100">$$$</button>
+      <!-- Controles de Faixa de Preço e Ordenação -->
+      <div class="flex flex-wrap items-center gap-2.5">
+        <!-- Filtro de Preço -->
+        <div class="flex items-center gap-1 bg-white p-1 rounded-xl border border-stone-200">
+          <span class="text-xs font-semibold text-stone-500 px-2">Preço:</span>
+          <button onclick="setPriceFilter('all')" data-price="all" class="price-btn px-2.5 py-1 rounded-lg text-xs font-bold bg-coffeeDark text-white">Todos</button>
+          <button onclick="setPriceFilter('free')" data-price="free" class="price-btn px-2.5 py-1 rounded-lg text-xs font-bold text-stone-600 hover:bg-stone-100">Grátis</button>
+          <button onclick="setPriceFilter('$')" data-price="$" class="price-btn px-2.5 py-1 rounded-lg text-xs font-bold text-stone-600 hover:bg-stone-100">$</button>
+          <button onclick="setPriceFilter('$$')" data-price="$$" class="price-btn px-2.5 py-1 rounded-lg text-xs font-bold text-stone-600 hover:bg-stone-100">$$</button>
+          <button onclick="setPriceFilter('$$$')" data-price="$$$" class="price-btn px-2.5 py-1 rounded-lg text-xs font-bold text-stone-600 hover:bg-stone-100">$$$</button>
+        </div>
+
+        <!-- Seletor de Ordenação -->
+        <div class="flex items-center gap-1.5 bg-white px-3 py-1.5 rounded-xl border border-stone-200">
+          <i data-lucide="arrow-up-down" class="w-3.5 h-3.5 text-stone-500"></i>
+          <select id="sortSelect" onchange="applyFilters()" aria-label="Ordenar resultados" class="text-xs font-bold text-coffeeDark bg-transparent focus:outline-none cursor-pointer">
+            <option value="relevance">Relevância</option>
+            <option value="price_asc">Menor Preço</option>
+            <option value="price_desc">Maior Preço</option>
+            <option value="rating_desc">Melhor Avaliação</option>
+          </select>
+        </div>
       </div>
     </div>
 
-    <!-- City & Category Pills -->
-    <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 mb-8">
-      <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1" id="cityFilters">
-        <span class="text-xs font-bold uppercase text-stone-400 mr-1">Cidades:</span>
+    <!-- Filtros Dinâmicos de Cidades e Categorias -->
+    <div class="space-y-2.5 mb-7 bg-white/70 p-3.5 rounded-2xl border border-stone-200/80">
+      <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1" id="cityFilters"></div>
+      <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pt-1 border-t border-stone-100" id="categoryFilters"></div>
+    </div>
+
+    <!-- Cabeçalho da Lista de Resultados -->
+    <div class="flex flex-wrap items-center justify-between gap-2 mb-5">
+      <div>
+        <h2 id="sectionTitle" class="text-xl sm:text-2xl font-extrabold text-coffeeDark">Pontos Turísticos do Norte do Paraná</h2>
+        <p id="sectionSubtitle" class="text-xs text-stone-500 mt-0.5">Clique em qualquer card para ver tabela completa de preços, horários, localização e locais próximos.</p>
       </div>
-      <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1" id="categoryFilters">
-        <span class="text-xs font-bold uppercase text-stone-400 mr-1">Categoria:</span>
+      <div class="flex items-center gap-3">
+        <span id="resultsCount" class="text-xs font-bold bg-stone-200/70 text-coffeeDark px-3 py-1.5 rounded-full">0 resultados</span>
       </div>
     </div>
 
-    <!-- Results Counter -->
-    <div class="flex items-center justify-between mb-5">
-      <h2 id="sectionTitle" class="text-xl font-extrabold text-coffeeDark">Pontos Turísticos em Destaque</h2>
-      <span id="resultsCount" class="text-sm font-medium text-stone-500">0 resultados</span>
-    </div>
-
-    <!-- Cards Grid -->
+    <!-- Grade de Cards -->
     <div id="cardsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-16"></div>
 
-    <!-- Side-by-Side Price Comparator Section -->
+    <!-- Comparador Interativo Side-by-Side (Até 3 Locais) + Tabela Geral -->
     <section id="comparatorSection" class="bg-white rounded-3xl border border-stone-200 shadow-sm p-6 sm:p-8 mb-12">
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
         <div>
-          <span class="text-xs font-bold uppercase tracking-wider text-terracotta">Planejamento Inteligente</span>
+          <span class="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-terracotta mb-1">
+            <i data-lucide="scale" class="w-3.5 h-3.5"></i> Planejamento Inteligente 2026
+          </span>
           <h2 class="text-2xl font-extrabold text-emeraldDeep">Comparador Lado a Lado: Hospedagem & Gastronomia</h2>
-          <p class="text-sm text-stone-600 mt-1">Compare o custo-benefício médio entre perfis econômicos, executivos e experiências típicas do Norte do Paraná.</p>
+          <p class="text-sm text-stone-600 mt-1">
+            Marque até <strong>3 opções</strong> na tabela abaixo para comparar lado a lado o custo total para <span id="cmpPeopleLabel" class="font-bold text-coffeeDark">2 pessoas</span> e <span id="cmpDaysLabel" class="font-bold text-coffeeDark">2 diárias</span>.
+          </p>
         </div>
-        <div class="flex gap-2">
-          <button onclick="switchCompareTable('hoteis')" id="cmpBtnHoteis" class="px-4 py-2 rounded-xl text-xs font-bold bg-emeraldDeep text-white transition">Comparar Hotéis</button>
-          <button onclick="switchCompareTable('restaurantes')" id="cmpBtnRest" class="px-4 py-2 rounded-xl text-xs font-bold bg-stone-100 text-stone-700 hover:bg-stone-200 transition">Comparar Restaurantes</button>
+
+        <div class="flex flex-wrap gap-2">
+          <button onclick="switchCompareTable('hoteis')" id="cmpBtnHoteis" class="px-4 py-2.5 rounded-xl text-xs font-bold bg-emeraldDeep text-white transition shadow-xs flex items-center gap-1.5">
+            <i data-lucide="bed-double" class="w-3.5 h-3.5"></i> Comparar Hotéis
+          </button>
+          <button onclick="switchCompareTable('restaurantes')" id="cmpBtnRest" class="px-4 py-2.5 rounded-xl text-xs font-bold bg-stone-100 text-stone-700 hover:bg-stone-200 transition flex items-center gap-1.5">
+            <i data-lucide="utensils" class="w-3.5 h-3.5"></i> Comparar Restaurantes
+          </button>
         </div>
       </div>
 
-      <div class="overflow-x-auto">
-        <table class="w-full text-left border-collapse" id="comparisonTable"></table>
+      <!-- Painel Visual de Comparação Lado a Lado (Até 3 Selecionados) -->
+      <div id="sideBySideCards" class="mb-8"></div>
+
+      <!-- Tabela Completa Comparativa -->
+      <div class="border border-stone-200 rounded-2xl overflow-hidden">
+        <div class="bg-creamBg px-4 py-3 border-b border-stone-200 flex items-center justify-between">
+          <span class="text-xs font-extrabold uppercase tracking-wider text-coffeeDark">Tabela Completa de Referência</span>
+          <button onclick="clearSelectedCompare()" id="clearCmpBtn" class="hidden text-xs font-bold text-terracotta hover:underline">
+            Limpar seleção (0/3)
+          </button>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse" id="comparisonTable"></table>
+        </div>
       </div>
     </section>
 
   </main>
 
-  <!-- Footer -->
-  <footer class="bg-coffeeDark text-stone-300 py-10 border-t border-stone-800">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-      <div class="flex items-center gap-2">
-        <i data-lucide="coffee" class="w-5 h-5 text-goldAccent"></i>
-        <span class="font-bold text-white">Guia Norte do Paraná</span>
+  <!-- Rodapé -->
+  <footer class="bg-coffeeDark text-stone-300 py-10 border-t border-stone-800 mt-auto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-xl bg-emeraldDeep flex items-center justify-center text-goldAccent">
+          <i data-lucide="coffee" class="w-5 h-5"></i>
+        </div>
+        <div>
+          <span class="font-extrabold text-white block">Guia Turístico & Comparador Norte do Paraná</span>
+          <span class="text-xs text-stone-400">Londrina • Maringá • Apucarana • Rolândia • Cambé • Cornélio Procópio</span>
+        </div>
       </div>
-      <p class="text-xs text-stone-400 text-center sm:text-right">
-        Valores médios estimados para referência turística. Consulte disponibilidade antes de viajar.
-      </p>
+      <div class="text-xs text-stone-400 text-center md:text-right max-w-md">
+        Preços médios pesquisados em 2026 para referência turística. Clique nos botões de pesquisa externa dentro de cada local para conferir tarifas em tempo real.
+      </div>
     </div>
   </footer>
 
-  <!-- Details Modal -->
-  <div id="detailModal" class="fixed inset-0 z-50 hidden bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
-    <div class="bg-white rounded-3xl max-w-3xl w-full overflow-hidden shadow-2xl my-8">
-      <div id="modalContent"></div>
+  <!-- Modal de Detalhes Completo (Atrações, Hotéis e Restaurantes) -->
+  <div id="detailModal" onclick="handleBackdropClose(event, 'detailModal')" class="fixed inset-0 z-50 hidden bg-black/65 backdrop-blur-xs flex items-center justify-center p-3 sm:p-5 overflow-y-auto">
+    <div class="bg-white rounded-3xl max-w-3xl w-full overflow-hidden shadow-2xl my-auto max-h-[92vh] flex flex-col animate-modal">
+      <div id="modalContent" class="overflow-y-auto"></div>
     </div>
   </div>
 
-  <!-- Itinerary & Budget Drawer -->
+  <!-- Drawer Lateral: Roteiro & Calculadora Avançada de Orçamento -->
   <div id="itineraryDrawer" class="fixed inset-0 z-50 hidden">
-    <div onclick="toggleDrawer()" class="absolute inset-0 bg-black/50 backdrop-blur-xs"></div>
-    <div class="absolute right-0 top-0 bottom-0 w-full max-w-md bg-white shadow-2xl flex flex-col">
-      <div class="p-5 bg-emeraldDeep text-white flex items-center justify-between">
+    <div onclick="toggleDrawer(false)" class="absolute inset-0 bg-black/55 backdrop-blur-xs transition-opacity"></div>
+    <aside class="absolute right-0 top-0 bottom-0 w-full max-w-md bg-white shadow-2xl flex flex-col">
+      <!-- Cabeçalho do Drawer -->
+      <div class="p-5 bg-gradient-to-r from-emeraldDeep to-[#234E3C] text-white flex items-center justify-between shrink-0">
         <div class="flex items-center gap-2.5">
-          <i data-lucide="calculator" class="w-5 h-5 text-goldAccent"></i>
+          <div class="w-9 h-9 rounded-xl bg-white/10 flex items-center justify-center text-goldAccent">
+            <i data-lucide="calculator" class="w-5 h-5"></i>
+          </div>
           <div>
-            <h3 class="font-bold text-lg leading-tight">Roteiro & Orçamento</h3>
-            <p class="text-xs text-stone-200">Simule os gastos totais da sua viagem</p>
+            <h3 class="font-extrabold text-lg leading-tight">Roteiro & Orçamento</h3>
+            <p class="text-xs text-stone-200">Planejamento financeiro detalhado</p>
           </div>
         </div>
-        <button onclick="toggleDrawer()" class="p-1.5 rounded-lg hover:bg-white/10 transition">
+        <button onclick="toggleDrawer(false)" aria-label="Fechar roteiro" class="p-2 rounded-xl hover:bg-white/15 transition">
           <i data-lucide="x" class="w-5 h-5"></i>
         </button>
       </div>
 
-      <!-- Trip Multipliers -->
-      <div class="p-4 bg-creamBg border-b border-stone-200 grid grid-cols-2 gap-3">
-        <div>
-          <label class="block text-[11px] font-bold uppercase text-stone-500 mb-1">Nº de Pessoas</label>
-          <div class="flex items-center bg-white border border-stone-300 rounded-xl overflow-hidden">
-            <button onclick="updateTripParam('people', -1)" class="px-3 py-1.5 font-bold text-stone-600 hover:bg-stone-100">-</button>
-            <span id="tripPeopleCount" class="flex-1 text-center font-bold text-sm">2</span>
-            <button onclick="updateTripParam('people', 1)" class="px-3 py-1.5 font-bold text-stone-600 hover:bg-stone-100">+</button>
+      <!-- Parâmetros da Viagem -->
+      <div class="p-4 bg-creamBg border-b border-stone-200 space-y-3 shrink-0">
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-[11px] font-extrabold uppercase text-stone-500 mb-1">Nº de Viajantes</label>
+            <div class="flex items-center bg-white border border-stone-300 rounded-xl overflow-hidden">
+              <button onclick="updateTripParam('people', -1)" class="px-3 py-1.5 font-extrabold text-stone-600 hover:bg-stone-100">-</button>
+              <span id="tripPeopleCount" class="flex-1 text-center font-extrabold text-sm text-coffeeDark">2</span>
+              <button onclick="updateTripParam('people', 1)" class="px-3 py-1.5 font-extrabold text-stone-600 hover:bg-stone-100">+</button>
+            </div>
+          </div>
+          <div>
+            <label class="block text-[11px] font-extrabold uppercase text-stone-500 mb-1">Diárias de Hotel</label>
+            <div class="flex items-center bg-white border border-stone-300 rounded-xl overflow-hidden">
+              <button onclick="updateTripParam('days', -1)" class="px-3 py-1.5 font-extrabold text-stone-600 hover:bg-stone-100">-</button>
+              <span id="tripDaysCount" class="flex-1 text-center font-extrabold text-sm text-coffeeDark">2</span>
+              <button onclick="updateTripParam('days', 1)" class="px-3 py-1.5 font-extrabold text-stone-600 hover:bg-stone-100">+</button>
+            </div>
           </div>
         </div>
-        <div>
-          <label class="block text-[11px] font-bold uppercase text-stone-500 mb-1">Diárias de Hotel</label>
-          <div class="flex items-center bg-white border border-stone-300 rounded-xl overflow-hidden">
-            <button onclick="updateTripParam('days', -1)" class="px-3 py-1.5 font-bold text-stone-600 hover:bg-stone-100">-</button>
-            <span id="tripDaysCount" class="flex-1 text-center font-bold text-sm">2</span>
-            <button onclick="updateTripParam('days', 1)" class="px-3 py-1.5 font-bold text-stone-600 hover:bg-stone-100">+</button>
-          </div>
-        </div>
+
+        <!-- Opção de Estimativa de Deslocamento entre Cidades -->
+        <label class="flex items-center justify-between bg-white px-3 py-2 rounded-xl border border-stone-200 cursor-pointer">
+          <span class="text-xs font-semibold text-coffeeDark flex items-center gap-1.5">
+            <i data-lucide="car" class="w-4 h-4 text-terracotta"></i>
+            Incluir estimativa de deslocamento/combustível
+          </span>
+          <input type="checkbox" id="includeFuelCheck" onchange="toggleFuelEstimate()" class="w-4 h-4 accent-emeraldDeep rounded cursor-pointer" />
+        </label>
       </div>
 
-      <!-- Saved Items List -->
+      <!-- Lista de Itens Salvos -->
       <div id="drawerItemsList" class="flex-1 overflow-y-auto p-4 space-y-3"></div>
 
-      <!-- Budget Summary -->
-      <div class="p-5 bg-stone-50 border-t border-stone-200 space-y-2.5">
+      <!-- Resumo Financeiro -->
+      <div class="p-4 sm:p-5 bg-stone-50 border-t border-stone-200 space-y-2 shrink-0">
         <div class="flex justify-between text-xs text-stone-600">
           <span>Passeios & Ingressos:</span>
           <span id="costAttractions" class="font-bold text-stone-800">R$ 0,00</span>
         </div>
         <div class="flex justify-between text-xs text-stone-600">
-          <span>Hospedagem (<span id="lblDays">2</span> diárias):</span>
+          <span>Hospedagem (<span id="lblRooms">1</span> quarto × <span id="lblDays">2</span> diárias):</span>
           <span id="costHotels" class="font-bold text-stone-800">R$ 0,00</span>
         </div>
         <div class="flex justify-between text-xs text-stone-600">
           <span>Alimentação & Cafés:</span>
           <span id="costFood" class="font-bold text-stone-800">R$ 0,00</span>
         </div>
-        <div class="pt-2 border-t border-stone-200 flex justify-between items-center">
-          <span class="font-extrabold text-coffeeDark">Total Estimado:</span>
+        <div id="fuelCostRow" class="hidden flex justify-between text-xs text-stone-600">
+          <span id="fuelLabel">Deslocamento estimado entre cidades:</span>
+          <span id="costFuel" class="font-bold text-stone-800">R$ 0,00</span>
+        </div>
+
+        <div class="pt-2.5 border-t border-stone-200 flex justify-between items-end">
+          <div>
+            <span class="font-extrabold text-coffeeDark block text-sm">Total Estimado:</span>
+            <span id="costPerPerson" class="text-[11px] font-semibold text-stone-500">R$ 0,00 por pessoa</span>
+          </div>
           <span id="costTotal" class="text-xl font-extrabold text-emeraldDeep">R$ 0,00</span>
         </div>
 
         <div class="grid grid-cols-2 gap-2 pt-2">
-          <button onclick="clearItinerary()" class="py-2.5 px-3 rounded-xl border border-stone-300 text-stone-600 hover:bg-stone-100 font-bold text-xs transition">
-            Limpar Tudo
+          <button onclick="clearItinerary()" class="py-2.5 px-3 rounded-xl border border-stone-300 bg-white text-stone-600 hover:bg-stone-100 font-bold text-xs transition">
+            Limpar Roteiro
           </button>
-          <button onclick="copyItinerary()" class="py-2.5 px-3 rounded-xl bg-terracotta hover:opacity-90 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow transition">
-            <i data-lucide="copy" class="w-3.5 h-3.5"></i> Copiar Roteiro
+          <button onclick="copyItinerary()" class="py-2.5 px-3 rounded-xl bg-terracotta hover:bg-[#b85d42] text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-sm transition">
+            <i data-lucide="share-2" class="w-3.5 h-3.5"></i> Copiar p/ WhatsApp
           </button>
         </div>
       </div>
-    </div>
+    </aside>
   </div>
 
-  <!-- Toast Notification -->
-  <div id="toast" class="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 hidden bg-coffeeDark text-white text-xs font-bold px-4 py-3 rounded-xl shadow-lg flex items-center gap-2">
-    <i data-lucide="check-circle-2" class="w-4 h-4 text-goldAccent"></i>
-    <span id="toastMsg">Item adicionado!</span>
+  <!-- Notificação Toast -->
+  <div id="toast" class="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 hidden bg-coffeeDark text-white text-xs font-bold px-4 py-3 rounded-2xl shadow-xl flex items-center gap-2 border border-white/10">
+    <i data-lucide="check-circle-2" class="w-4 h-4 text-goldAccent shrink-0"></i>
+    <span id="toastMsg">Ação realizada!</span>
   </div>
 
   <script>
     const FALLBACK_IMG = "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=900&q=80";
 
+    // Base de Dados Completa 2026 — Norte do Paraná
     const DATA = {
       atracoes: [
         {
@@ -268,43 +429,47 @@
           city: "Maringá",
           category: "Cultura & História",
           priceTier: "$",
-          priceValue: 15,
-          priceLabel: "R$ 15,00 (Mirante)",
+          priceValue: 18,
+          priceLabel: "R$ 18,00 (Mirante)",
           rating: 4.9,
           duration: "1h30",
           image: "https://images.unsplash.com/photo-1548625149-fc4a29cf7092?auto=format&fit=crop&w=900&q=80",
           address: "Praça da Catedral, s/n - Zona 02, Maringá - PR",
-          hours: "Ter a Dom: 09h às 17h (Mirante)",
-          description: "Ícone arquitetônico de Maringá com 124 metros de altura em formato cônico. Oferece visitação ao mirante com vista panorâmica de 360 graus da Cidade Canção.",
+          hours: "Nave: 07h às 20h | Mirante: Ter a Dom, 09h às 17h",
+          tips: "Suba ao mirante no final da tarde para ver o pôr do sol sobre as avenidas arborizadas de Maringá.",
+          description: "Ícone arquitetônico de Maringá e um dos monumentos mais altos da América do Sul com 124 metros em formato cônico. O mirante interno oferece vista panorâmica de 360 graus da Cidade Canção.",
           tickets: [
-            { label: "Entrada na Nave", value: "Gratuita" },
-            { label: "Subida ao Mirante (Inteira)", value: "R$ 15,00" },
-            { label: "Meia-entrada / Idosos", value: "R$ 7,50" }
+            { label: "Entrada na Nave Principal", value: "Gratuita" },
+            { label: "Subida ao Mirante (Inteira 2026)", value: "R$ 18,00" },
+            { label: "Meia-entrada (Estudantes / Idosos 60+)", value: "R$ 9,00" },
+            { label: "Estacionamento Rotativo (Zona Azul)", value: "R$ 3,50/h" }
           ],
-          nearbyHotelIds: ["hot-2", "hot-3"],
+          nearbyHotelIds: ["hot-2", "hot-3", "hot-7"],
           nearbyRestIds: ["res-2", "res-3"]
         },
         {
           id: "atr-2",
           type: "atracoes",
-          name: "Lago Igapó",
+          name: "Lago Igapó (I e II)",
           city: "Londrina",
           category: "Natureza & Parques",
-          priceTier: "$",
+          priceTier: "free",
           priceValue: 0,
           priceLabel: "Gratuito",
-          rating: 4.8,
-          duration: "2h00",
+          rating: 4.9,
+          duration: "2h30",
           image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=900&q=80",
           address: "Av. Higienópolis / Gleba Palhano, Londrina - PR",
-          hours: "Aberto 24 horas",
-          description: "Cartão-postal de Londrina, ideal para caminhadas ao pôr do sol, piqueniques, esportes náuticos leves como stand-up paddle e caiaque.",
+          hours: "Aberto 24 horas (iluminação noturna nas pistas)",
+          tips: "A barragem da Av. Higienópolis é o ponto clássico para fotos; os deck-bares da Gleba Palhano são ótimos ao entardecer.",
+          description: "Principal cartão-postal de Londrina. Complexo de lagos urbanos cercado por pistas de caminhada, ciclovias, áreas de piquenique e prática de stand-up paddle, caiaque e remo.",
           tickets: [
             { label: "Acesso ao Parque e Pistas", value: "Gratuito" },
-            { label: "Aluguel de Caiaque/SUP (opcional)", value: "R$ 40,00/h" }
+            { label: "Aluguel de Caiaque / Stand-up Paddle (1h)", value: "R$ 45,00" },
+            { label: "Aluguel de Bicicleta Compartilhada", value: "R$ 12,00/h" }
           ],
-          nearbyHotelIds: ["hot-1", "hot-4"],
-          nearbyRestIds: ["res-1", "res-4"]
+          nearbyHotelIds: ["hot-1", "hot-4", "hot-6"],
+          nearbyRestIds: ["res-1", "res-4", "res-7"]
         },
         {
           id: "atr-3",
@@ -312,44 +477,46 @@
           name: "Parque do Ingá",
           city: "Maringá",
           category: "Natureza & Parques",
-          priceTier: "$",
+          priceTier: "free",
           priceValue: 0,
           priceLabel: "Gratuito",
           rating: 4.8,
           duration: "2h00",
           image: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=900&q=80",
           address: "Av. São Paulo, s/n - Zona 01, Maringá - PR",
-          hours: "Ter a Dom: 08h às 17h30",
-          description: "Reserva de Mata Atlântica no coração de Maringá com trilhas ecológicas, lago com pedalinhos, jardim japonês e fauna silvestre.",
+          hours: "Terça a Domingo: 08h às 17h30 (fechado às segundas)",
+          tips: "Não deixe de visitar o Jardim Imperial Japonês dentro do parque, inaugurado pela família imperial do Japão.",
+          description: "Reserva de Mata Atlântica nativa preservada bem no centro de Maringá, com lago central, pedalinhos, trilhas ecológicas pavimentadas, gruta e quatis.",
           tickets: [
-            { label: "Entrada Geral", value: "Gratuita" },
-            { label: "Passeio de Pedalinho", value: "R$ 10,00" }
+            { label: "Entrada Geral no Parque", value: "Gratuita" },
+            { label: "Passeio de Pedalinho no Lago (20 min)", value: "R$ 15,00" }
           ],
-          nearbyHotelIds: ["hot-2", "hot-3"],
-          nearbyRestIds: ["res-2"]
+          nearbyHotelIds: ["hot-2", "hot-3", "hot-7"],
+          nearbyRestIds: ["res-2", "res-3"]
         },
         {
           id: "atr-4",
           type: "atracoes",
           name: "Fazenda Histórica da Rota do Café",
-          city: "Rota do Café",
+          city: "Rolândia",
           category: "Gastronomia",
           priceTier: "$$",
-          priceValue: 65,
-          priceLabel: "R$ 65,00 (Tour + Degustação)",
+          priceValue: 75,
+          priceLabel: "R$ 75,00 (Tour + Café)",
           rating: 4.9,
           duration: "3h30",
           image: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=900&q=80",
-          address: "Zona Rural entre Londrina e Rolândia - PR",
-          hours: "Sáb, Dom e Feriados: 09h às 17h (com agendamento)",
-          description: "Imersão na história do ouro verde paranaense. Inclui visita aos cafezais, terreiros centenários, torrefação artesanal e café rural completo.",
+          address: "Estrada Rural do Cafezal, km 8 - Rolândia / Londrina - PR",
+          hours: "Sáb, Dom e Feriados: 09h às 17h (reserva recomendada)",
+          tips: "Prove o café coado na hora acompanhado de broa de fubá com erva-doce e doce de leite artesanal.",
+          description: "Imersão autêntica na era de ouro da cafeicultura do Norte do Paraná. Inclui caminhada pelos cafezais, visita aos terreiros de secagem centenários, tulha histórica, torrefação e café rural farto.",
           tickets: [
-            { label: "Tour Guiado + Café Rural", value: "R$ 65,00" },
-            { label: "Crianças de 6 a 12 anos", value: "R$ 32,50" },
-            { label: "Menores de 5 anos", value: "Gratuito" }
+            { label: "Tour Histórico Guiado + Café Rural Completo", value: "R$ 75,00" },
+            { label: "Crianças de 6 a 12 anos", value: "R$ 37,50" },
+            { label: "Crianças até 5 anos", value: "Gratuito" }
           ],
           nearbyHotelIds: ["hot-1", "hot-5"],
-          nearbyRestIds: ["res-5"]
+          nearbyRestIds: ["res-5", "res-4"]
         },
         {
           id: "atr-5",
@@ -357,42 +524,45 @@
           name: "Jardim Botânico de Londrina",
           city: "Londrina",
           category: "Natureza & Parques",
-          priceTier: "$",
+          priceTier: "free",
           priceValue: 0,
           priceLabel: "Gratuito",
-          rating: 4.7,
+          rating: 4.8,
           duration: "2h00",
           image: "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&w=900&q=80",
-          address: "Av. dos Expedicionários, 200 - Londrina - PR",
-          hours: "Ter a Dom: 08h às 18h",
-          description: "Mais de 1 milhão de metros quadrados de mata nativa, estufas de vidro icônicas, pontes sobre lagos e coleções botânicas preservadas.",
+          address: "Av. dos Expedicionários, 200 - Jardim Botânico, Londrina - PR",
+          hours: "Terça a Domingo: 08h às 18h",
+          tips: "Excelente local para ensaios fotográficos nas estufas de vidro e observação de aves no fim da manhã.",
+          description: "Com mais de 1 milhão de m² de mata nativa, possui estufas icônicas de vidro e aço, pontes sobre lagos, nascentes e coleções botânicas da flora paranaense.",
           tickets: [
-            { label: "Visitação Livre", value: "Gratuita" }
+            { label: "Visitação Livre e Estufas", value: "Gratuita" },
+            { label: "Estacionamento Interno", value: "Gratuito" }
           ],
-          nearbyHotelIds: ["hot-1", "hot-4"],
+          nearbyHotelIds: ["hot-1", "hot-4", "hot-6"],
           nearbyRestIds: ["res-1", "res-4"]
         },
         {
           id: "atr-6",
           type: "atracoes",
-          name: "Salto do Apucaraninha",
+          name: "Salto do Apucaraninha (Cachoeira 116m)",
           city: "Londrina",
           category: "Ecoturismo",
           priceTier: "$",
-          priceValue: 20,
-          priceLabel: "R$ 20,00 (Taxa Ambiental)",
+          priceValue: 25,
+          priceLabel: "R$ 25,00 (Taxa Ambiental)",
           rating: 4.9,
-          duration: "4h00",
+          duration: "4h30",
           image: "https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?auto=format&fit=crop&w=900&q=80",
-          address: "Distrito de Lerroville (Reserva Kaingang) - Londrina - PR",
-          hours: "Qua a Dom: 08h30 às 16h30",
-          description: "Espetacular queda d'água de 116 metros de altura em meio a cânions e mata preservada dentro da terra indígena Kaingang.",
+          address: "Distrito de Lerroville (Terra Indígena Kaingang) - Londrina - PR",
+          hours: "Quarta a Domingo: 08h30 às 16h30",
+          tips: "Fica a cerca de 75 km do centro de Londrina; vá com tanque cheio e calçados antiderrapantes.",
+          description: "Imponente queda d'água de 116 metros de altura cercada por paredões rochosos e floresta preservada dentro da Reserva Indígena Kaingang.",
           tickets: [
-            { label: "Taxa de Preservação Ambiental", value: "R$ 20,00" },
-            { label: "Condutor Local (opcional)", value: "R$ 50,00" }
+            { label: "Taxa de Preservação Ambiental (Mirante)", value: "R$ 25,00" },
+            { label: "Condutor Local Indígena (trilha base)", value: "R$ 60,00" }
           ],
-          nearbyHotelIds: ["hot-4"],
-          nearbyRestIds: ["res-1"]
+          nearbyHotelIds: ["hot-4", "hot-6"],
+          nearbyRestIds: ["res-1", "res-7"]
         },
         {
           id: "atr-7",
@@ -400,20 +570,21 @@
           name: "Parque Estadual Mata dos Godoy",
           city: "Londrina",
           category: "Ecoturismo",
-          priceTier: "$",
+          priceTier: "free",
           priceValue: 0,
           priceLabel: "Gratuito",
           rating: 4.8,
           duration: "2h30",
           image: "https://images.unsplash.com/photo-1511497584788-876760111969?auto=format&fit=crop&w=900&q=80",
-          address: "Rodovia PR-538, km 12 - Londrina - PR",
-          hours: "Qua a Dom: 08h às 16h",
-          description: "Uma das últimas grandes reservas de floresta estacional semidecidual do Sul do Brasil, com perobas centenárias e trilhas suspensas.",
+          address: "Rodovia PR-538, km 12 - Zona Sul, Londrina - PR",
+          hours: "Quarta a Domingo: 08h às 16h",
+          tips: "Use repelente e leve garrafa de água; as trilhas têm passarelas de madeira bem sinalizadas.",
+          description: "Uma das últimas grandes reservas intactas de floresta estacional semidecidual do Sul do Brasil, lar de perobas-rosas centenárias, figueiras gigantes e macacos-prego.",
           tickets: [
-            { label: "Entrada e Trilhas Guiadas", value: "Gratuita" }
+            { label: "Entrada e Trilhas Ecológicas", value: "Gratuita" }
           ],
-          nearbyHotelIds: ["hot-1"],
-          nearbyRestIds: ["res-4"]
+          nearbyHotelIds: ["hot-1", "hot-6"],
+          nearbyRestIds: ["res-4", "res-7"]
         },
         {
           id: "atr-8",
@@ -421,20 +592,66 @@
           name: "Parque Ecológico da Raposa & Templo Budista",
           city: "Apucarana",
           category: "Cultura & História",
-          priceTier: "$",
+          priceTier: "free",
+          priceValue: 0,
+          priceLabel: "Gratuito",
+          rating: 4.7,
+          duration: "2h30",
+          image: "https://images.unsplash.com/photo-1528164344705-47542687000d?auto=format&fit=crop&w=900&q=80",
+          address: "Estrada do Bilote / Zona Rural - Apucarana - PR",
+          hours: "Terça a Domingo: 08h às 17h",
+          tips: "Combine o passeio na natureza com uma parada no centro de Apucarana para conhecer a capital nacional do boné.",
+          description: "Apucarana combina áreas verdes com rica herança da imigração japonesa, oferecendo trilhas tranquilas, lagos e arquitetura oriental contemplativa.",
+          tickets: [
+            { label: "Visitação Livre", value: "Gratuita" }
+          ],
+          nearbyHotelIds: ["hot-5"],
+          nearbyRestIds: ["res-5", "res-6"]
+        },
+        {
+          id: "atr-9",
+          type: "atracoes",
+          name: "Parque Natural Municipal Ingá & Cachoeira",
+          city: "Cambé",
+          category: "Ecoturismo",
+          priceTier: "free",
           priceValue: 0,
           priceLabel: "Gratuito",
           rating: 4.7,
           duration: "2h00",
-          image: "https://images.unsplash.com/photo-1528164344705-47542687000d?auto=format&fit=crop&w=900&q=80",
-          address: "Estrada do Bilote / Zona Rural - Apucarana - PR",
-          hours: "Ter a Dom: 08h às 17h",
-          description: "Apucarana une áreas verdes preservadas com forte herança japonesa, oferecendo trilhas tranquilas e arquitetura oriental contemplativa.",
+          image: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=900&q=80",
+          address: "Rua Belo Horizonte, s/n - Cambé - PR",
+          hours: "Terça a Domingo: 08h às 17h30",
+          tips: "Fica a apenas 15 minutos do centro de Londrina, ótimo bate-volta matinal em família.",
+          description: "Área de preservação ambiental com trilhas sombreadas, pequenas quedas d'água, pontes rústicas e espaço educativo sobre a fauna do Norte paranaense.",
           tickets: [
-            { label: "Acesso Livre", value: "Gratuito" }
+            { label: "Acesso ao Parque", value: "Gratuito" }
           ],
-          nearbyHotelIds: ["hot-5"],
-          nearbyRestIds: ["res-5"]
+          nearbyHotelIds: ["hot-4", "hot-6"],
+          nearbyRestIds: ["res-4", "res-5"]
+        },
+        {
+          id: "atr-10",
+          type: "atracoes",
+          name: "Monumento Cristo Rei & Mata São Francisco",
+          city: "Cornélio Procópio",
+          category: "Cultura & História",
+          priceTier: "free",
+          priceValue: 0,
+          priceLabel: "Gratuito",
+          rating: 4.8,
+          duration: "2h30",
+          image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=900&q=80",
+          address: "Av. XV de Novembro / Parque Estadual Mata São Francisco - Cornélio Procópio - PR",
+          hours: "Mirante: 24h | Parque Estadual: Qua a Dom, 08h às 16h30",
+          tips: "Portal histórico do Norte Pioneiro do café; excelente parada gastronômica na rota entre Londrina e Ourinhos.",
+          description: "Mirante panorâmico com estátua monumental do Cristo Rei e o vizinho Parque Estadual Mata São Francisco, reserva vital de biodiversidade do Norte Pioneiro.",
+          tickets: [
+            { label: "Mirante Cristo Rei", value: "Gratuito" },
+            { label: "Parque Estadual Mata São Francisco", value: "Gratuito" }
+          ],
+          nearbyHotelIds: ["hot-8"],
+          nearbyRestIds: ["res-8"]
         }
       ],
       hoteis: [
@@ -445,13 +662,21 @@
           city: "Londrina",
           category: "Hotel Executivo",
           priceTier: "$$$",
-          priceValue: 340,
-          priceLabel: "R$ 340 / diária",
-          rating: 4.7,
-          breakfast: "Café da manhã incluso",
-          distance: "1,5 km do Lago Igapó",
+          priceValue: 360,
+          priceLabel: "R$ 360 / diária",
+          rating: 4.8,
+          breakfast: "Café colonial incluso",
+          distance: "1,4 km do Lago Igapó",
+          address: "Av. Juscelino Kubitschek, 1356 - Centro, Londrina - PR",
+          hours: "Check-in: 14h | Check-out: 12h",
+          amenities: ["Piscina na cobertura", "Academia completa", "Estacionamento coberto", "Wi-Fi fibra", "Restaurante internacional"],
+          tickets: [
+            { label: "Quarto Superior Single/Casal (com café)", value: "R$ 360,00" },
+            { label: "Suíte Executiva Vista Lago", value: "R$ 490,00" },
+            { label: "Estacionamento (diária)", value: "R$ 28,00" }
+          ],
           image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=900&q=80",
-          description: "Conforto executivo próximo ao centro e ao Lago Igapó, com piscina na cobertura, academia e buffet completo de café da manhã."
+          description: "Referência em hotelaria executiva em Londrina, próximo ao Lago Igapó e ao centro gastronômico, com piscina panorâmica e buffet completo de café da manhã."
         },
         {
           id: "hot-2",
@@ -460,13 +685,21 @@
           city: "Maringá",
           category: "Hotel Executivo",
           priceTier: "$$",
-          priceValue: 260,
-          priceLabel: "R$ 260 / diária",
-          rating: 4.6,
+          priceValue: 275,
+          priceLabel: "R$ 275 / diária",
+          rating: 4.7,
           breakfast: "Café da manhã incluso",
-          distance: "800 m da Catedral",
+          distance: "750 m da Catedral",
+          address: "Av. XV de Novembro, 470 - Zona 01, Maringá - PR",
+          hours: "Check-in: 14h | Check-out: 12h",
+          amenities: ["Café da manhã regional", "Piscina", "Sauna", "Quartos familiares", "Recepção 24h"],
+          tickets: [
+            { label: "Apartamento Standard Duplo", value: "R$ 275,00" },
+            { label: "Apartamento Triplo Família", value: "R$ 345,00" },
+            { label: "Estacionamento", value: "Incluso" }
+          ],
           image: "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=900&q=80",
-          description: "Localização estratégica entre a Catedral de Maringá e o Parque do Ingá, ideal para famílias e viajantes a lazer."
+          description: "Localização privilegiada no coração de Maringá, a poucos passos da Catedral Basílica e do Parque do Ingá, ideal para lazer em família ou negócios."
         },
         {
           id: "hot-3",
@@ -475,13 +708,20 @@
           city: "Maringá",
           category: "Econômico",
           priceTier: "$",
-          priceValue: 145,
-          priceLabel: "R$ 145 / diária",
-          rating: 4.4,
+          priceValue: 155,
+          priceLabel: "R$ 155 / diária",
+          rating: 4.5,
           breakfast: "Café simples incluso",
-          distance: "1,2 km do Parque do Ingá",
+          distance: "1,1 km do Parque do Ingá",
+          address: "Rua Neo Alves Martins, 1890 - Zona 01, Maringá - PR",
+          hours: "Check-in: 13h | Check-out: 11h",
+          amenities: ["Wi-Fi gratuito", "Ar-condicionado", "Frigobar", "Café da manhã caseiro"],
+          tickets: [
+            { label: "Quarto Individual Econômico", value: "R$ 125,00" },
+            { label: "Quarto Casal Standard", value: "R$ 155,00" }
+          ],
           image: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=900&q=80",
-          description: "Opção prática e acolhedora com excelente custo-benefício para quem quer explorar Maringá gastando pouco."
+          description: "Opção acolhedora com excelente custo-benefício para quem deseja explorar as atrações centrais de Maringá sem pesar no orçamento."
         },
         {
           id: "hot-4",
@@ -490,13 +730,20 @@
           city: "Londrina",
           category: "Econômico",
           priceTier: "$$",
-          priceValue: 210,
-          priceLabel: "R$ 210 / diária",
-          rating: 4.5,
-          breakfast: "Opcional (+R$ 32)",
-          distance: "900 m do Lago Igapó",
+          priceValue: 220,
+          priceLabel: "R$ 220 / diária",
+          rating: 4.6,
+          breakfast: "Opcional (+R$ 34)",
+          distance: "850 m do Lago Igapó",
+          address: "Rua Prefeito Faria Lima, 1710 - Gleba Palhano, Londrina - PR",
+          hours: "Check-in: 12h | Check-out: 12h",
+          amenities: ["Pet friendly", "Bar 24h", "Acesso ao Shopping", "Isolamento acústico"],
+          tickets: [
+            { label: "Diária Quarto Standard (sem café)", value: "R$ 220,00" },
+            { label: "Diária com Café da Manhã", value: "R$ 254,00" }
+          ],
           image: "https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=900&q=80",
-          description: "Hotel moderno ao lado do shopping e a poucos minutos a pé da pista de caminhada do Lago Igapó."
+          description: "Moderno e funcional na região nobre da Gleba Palhano, com acesso rápido à pista de caminhada do Lago Igapó e aos melhores restaurantes."
         },
         {
           id: "hot-5",
@@ -505,13 +752,86 @@
           city: "Apucarana",
           category: "Hotel Executivo",
           priceTier: "$$",
-          priceValue: 225,
-          priceLabel: "R$ 225 / diária",
+          priceValue: 235,
+          priceLabel: "R$ 235 / diária",
           rating: 4.6,
           breakfast: "Café da manhã incluso",
           distance: "Centro de Apucarana",
+          address: "Av. Curitiba, 1120 - Centro, Apucarana - PR",
+          hours: "Check-in: 14h | Check-out: 12h",
+          amenities: ["Café da manhã completo", "Estacionamento grátis", "Academia", "Sala de reuniões"],
+          tickets: [
+            { label: "Apartamento Luxo Casal", value: "R$ 235,00" },
+            { label: "Suíte Master", value: "R$ 310,00" }
+          ],
           image: "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=900&q=80",
-          description: "Base perfeita para explorar Apucarana e fazer bate-volta pelas fazendas históricas da Rota do Café."
+          description: "Base estratégica entre Londrina e Maringá, ideal para visitar o Parque da Raposa e as fazendas históricas de Rolândia e Apucarana."
+        },
+        {
+          id: "hot-6",
+          type: "hoteis",
+          name: "Comfort Suites Londrina",
+          city: "Londrina",
+          category: "Hotel Executivo",
+          priceTier: "$$$",
+          priceValue: 330,
+          priceLabel: "R$ 330 / diária",
+          rating: 4.8,
+          breakfast: "Café da manhã incluso",
+          distance: "1,8 km do Jardim Botânico",
+          address: "Rua Edwy Taques de Araújo, 250 - Gleba Palhano, Londrina - PR",
+          hours: "Check-in: 14h | Check-out: 12h",
+          amenities: ["Piscina aquecida", "Varanda nos quartos", "Fitness center", "Café variado"],
+          tickets: [
+            { label: "Suíte Superior com Varanda", value: "R$ 330,00" },
+            { label: "Suíte Business", value: "R$ 395,00" }
+          ],
+          image: "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?auto=format&fit=crop&w=900&q=80",
+          description: "Suítes amplas com varanda na Gleba Palhano, combinando tranquilidade residencial com fácil acesso ao Jardim Botânico e Lago Igapó."
+        },
+        {
+          id: "hot-7",
+          type: "hoteis",
+          name: "Deville Business Maringá",
+          city: "Maringá",
+          category: "Hotel Executivo",
+          priceTier: "$$$",
+          priceValue: 390,
+          priceLabel: "R$ 390 / diária",
+          rating: 4.9,
+          breakfast: "Café gastronômico incluso",
+          distance: "500 m da Catedral",
+          address: "Av. Herval, 26 - Zona 01, Maringá - PR",
+          hours: "Check-in: 14h | Check-out: 12h",
+          amenities: ["Piscina externa", "Restaurante premiado", "Serviço de quarto 24h", "Pet friendly"],
+          tickets: [
+            { label: "Apartamento Luxo Casal", value: "R$ 390,00" },
+            { label: "Suíte Executiva", value: "R$ 520,00" }
+          ],
+          image: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=900&q=80",
+          description: "Hotelaria de alto padrão em frente à praça central de Maringá, com serviço impecável e café da manhã considerado um dos melhores da região."
+        },
+        {
+          id: "hot-8",
+          type: "hoteis",
+          name: "Hotel Aguativa & Conforto Norte Pioneiro",
+          city: "Cornélio Procópio",
+          category: "Hotel Executivo",
+          priceTier: "$$$",
+          priceValue: 420,
+          priceLabel: "R$ 420 / diária",
+          rating: 4.8,
+          breakfast: "Pensão café + lazer",
+          distance: "12 km do Cristo Rei",
+          address: "Rodovia Melo Peixoto, km 118 - Cornélio Procópio - PR",
+          hours: "Check-in: 15h | Check-out: 12h",
+          amenities: ["Águas termais", "Trilhas ecológicas", "Complexo aquático", "Recreação infantil"],
+          tickets: [
+            { label: "Chalé / Apartamento Casal", value: "R$ 420,00" },
+            { label: "Pacote Família (2 adultos + 1 criança)", value: "R$ 540,00" }
+          ],
+          image: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=900&q=80",
+          description: "Refúgio de lazer e descanso em meio à natureza do Norte Pioneiro, perfeito para famílias que buscam águas termais e contato com o campo."
         }
       ],
       restaurantes: [
@@ -522,12 +842,19 @@
           city: "Londrina",
           category: "Gastronomia",
           priceTier: "$$$",
-          priceValue: 95,
-          priceLabel: "R$ 95 / pessoa",
+          priceValue: 98,
+          priceLabel: "R$ 98 / pessoa",
           rating: 4.8,
-          specialty: "Cortes nobres & Tilápia grelhada",
+          specialty: "Cortes nobres & Tilápia grelhada na brasa",
+          address: "Av. Higienópolis, 2450 - Vista Lago Igapó, Londrina - PR",
+          hours: "Ter a Dom: 11h30 às 15h e 18h30 às 23h",
+          amenities: ["Deck com vista para o lago", "Carta de vinhos", "Acessibilidade", "Menu kids"],
+          tickets: [
+            { label: "Prato Executivo Almoço", value: "R$ 54,00" },
+            { label: "Jantar à La Carte (média por pessoa)", value: "R$ 98,00" }
+          ],
           image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=900&q=80",
-          description: "Vista privilegiada para o Lago Igapó com cardápio contemporâneo, peixes regionais e carta de vinhos."
+          description: "Experiência gastronômica sofisticada às margens do Lago Igapó, combinando cortes selecionados na parrilla e pescados frescos da região."
         },
         {
           id: "res-2",
@@ -536,12 +863,19 @@
           city: "Maringá",
           category: "Gastronomia",
           priceTier: "$$",
-          priceValue: 68,
-          priceLabel: "R$ 68 / pessoa",
-          rating: 4.7,
-          specialty: "Massas artesanais & Rodízio",
+          priceValue: 72,
+          priceLabel: "R$ 72 / pessoa",
+          rating: 4.8,
+          specialty: "Massas artesanais & Galeto al primo canto",
+          address: "Av. Tiradentes, 890 - Zona 01, Maringá - PR",
+          hours: "Ter a Dom: 11h30 às 14h30 e 19h às 23h",
+          amenities: ["Ambiente familiar", "Massas frescas diárias", "Estacionamento conveniado"],
+          tickets: [
+            { label: "Sequência de Massas & Galeto (por pessoa)", value: "R$ 72,00" },
+            { label: "Prato Individual Massa Artesanal", value: "R$ 48,00" }
+          ],
           image: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=900&q=80",
-          description: "Clássico familiar próximo à Catedral com massas frescas feitas na casa e porções generosas."
+          description: "Tradição italiana no centro de Maringá com receitas de família, massas produzidas artesanalmente todos os dias e atendimento acolhedor."
         },
         {
           id: "res-3",
@@ -550,12 +884,19 @@
           city: "Maringá",
           category: "Econômico",
           priceTier: "$",
-          priceValue: 28,
-          priceLabel: "R$ 28 / pessoa",
-          rating: 4.8,
-          specialty: "Prensado típico maringaense",
+          priceValue: 30,
+          priceLabel: "R$ 30 / pessoa",
+          rating: 4.9,
+          specialty: "Prensado típico maringaense com frango e catupiry",
+          address: "Av. Brasil, 3420 - Zona 01, Maringá - PR",
+          hours: "Todos os dias: 17h30 às 00h30",
+          amenities: ["Patrimônio cultural local", "Lanche tamanho família", "Opções vegetarianas"],
+          tickets: [
+            { label: "Cachorrão Tradicional Prensado", value: "R$ 24,00" },
+            { label: "Combo Cachorrão + Suco Natural", value: "R$ 30,00" }
+          ],
           image: "https://images.unsplash.com/photo-1619740455993-9e612b1af08a?auto=format&fit=crop&w=900&q=80",
-          description: "Patrimônio gastronômico informal de Maringá: cachorro-quente prensado na chapa super recheado."
+          description: "Parada obrigatória em Maringá! O famoso cachorro-quente prensado na chapa, super recheado e servido bem crocante."
         },
         {
           id: "res-4",
@@ -564,165 +905,460 @@
           city: "Londrina",
           category: "Cafés",
           priceTier: "$$",
-          priceValue: 42,
-          priceLabel: "R$ 42 / pessoa",
+          priceValue: 44,
+          priceLabel: "R$ 44 / pessoa",
           rating: 4.9,
-          specialty: "Grãos premiados do Norte Pioneiro & Pão de queijo",
+          specialty: "Grãos premiados do Norte Pioneiro & Pão de queijo na chapa",
+          address: "Rua Paranaguá, 1180 - Centro, Londrina - PR",
+          hours: "Seg a Sáb: 08h30 às 19h30",
+          amenities: ["Torrefação própria", "Métodos filtrados (V60/Chemex)", "Venda de grãos", "Wi-Fi"],
+          tickets: [
+            { label: "Café Filtrado Especial + Pão de Queijo Recheado", value: "R$ 26,00" },
+            { label: "Brunch Completo do Barista", value: "R$ 44,00" }
+          ],
           image: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=900&q=80",
-          description: "Cafeteria especializada em métodos filtrados (V60, Chemex) utilizando grãos selecionados do Norte do Paraná."
+          description: "Cafeteria de referência para amantes de cafés especiais, valorizando produtores premiados do Norte do Paraná com torra fresca semanal."
         },
         {
           id: "res-5",
           type: "restaurantes",
           name: "Café Colonial Casarão",
-          city: "Rota do Café",
+          city: "Rolândia",
           category: "Cafés",
+          priceTier: "$$",
+          priceValue: 62,
+          priceLabel: "R$ 62 / pessoa",
+          rating: 4.9,
+          specialty: "Buffet livre com +40 itens rurais, cucas e café coado",
+          address: "Estrada São Rafael, km 4 - Rolândia / Apucarana - PR",
+          hours: "Sáb, Dom e Feriados: 08h30 às 18h",
+          amenities: ["Mais de 40 itens artesanais", "Área verde ao ar livre", "Estacionamento gratuito"],
+          tickets: [
+            { label: "Buffet Livre Café Colonial (Adulto)", value: "R$ 62,00" },
+            { label: "Crianças de 6 a 10 anos", value: "R$ 31,00" }
+          ],
+          image: "https://images.unsplash.com/photo-1559925393-8be0ec4767c8?auto=format&fit=crop&w=900&q=80",
+          description: "Mesa farta em casarão histórico da colonização alemã e italiana, com cucas frescas, broas, embutidos artesanais, geleias e café passado na hora."
+        },
+        {
+          id: "res-6",
+          type: "restaurantes",
+          name: "Sabor Oriental & Ramen Apucarana",
+          city: "Apucarana",
+          category: "Gastronomia",
           priceTier: "$$",
           priceValue: 58,
           priceLabel: "R$ 58 / pessoa",
+          rating: 4.7,
+          specialty: "Gyoza artesanal, Tonkotsu Ramen & Combinados",
+          address: "Rua Ponta Grossa, 1450 - Centro, Apucarana - PR",
+          hours: "Ter a Dom: 11h30 às 14h e 18h30 às 22h30",
+          amenities: ["Culinária nipo-brasileira autêntica", "Ar-condicionado", "Opções veganas"],
+          tickets: [
+            { label: "Teishoku Executivo (Almoço)", value: "R$ 42,00" },
+            { label: "Ramen Completo + Entrada", value: "R$ 58,00" }
+          ],
+          image: "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?auto=format&fit=crop&w=900&q=80",
+          description: "Homenagem à forte colônia japonesa de Apucarana, servindo caldos preparados por 12 horas, gyozas selados na chapa e combinados frescos."
+        },
+        {
+          id: "res-7",
+          type: "restaurantes",
+          name: "Mercadão da Prochet — Praça Gastronômica",
+          city: "Londrina",
+          category: "Econômico",
+          priceTier: "$",
+          priceValue: 38,
+          priceLabel: "R$ 38 / pessoa",
           rating: 4.8,
-          specialty: "Bolos caseiros, broas, geleias & café coado",
-          image: "https://images.unsplash.com/photo-1559925393-8be0ec4767c8?auto=format&fit=crop&w=900&q=80",
-          description: "Mesa farta em ambiente rústico entre Rolândia e Apucarana com receitas tradicionais das famílias colonizadoras."
+          specialty: "Pastel de feira, chopp artesanal & porções variadas",
+          address: "Av. Harry Prochet, 305 - Jardim São Jorge, Londrina - PR",
+          hours: "Ter a Dom: 10h às 22h",
+          amenities: ["Múltiplas opções num só lugar", "Música ao vivo nos fins de semana", "Espaço kids"],
+          tickets: [
+            { label: "Pastel Especial + Caldo de Cana", value: "R$ 24,00" },
+            { label: "Refeição Completa nas Bancas", value: "R$ 38,00" }
+          ],
+          image: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=900&q=80",
+          description: "Ponto de encontro descontraído em Londrina reunindo empórios, cafés, cervejarias locais, pastelarias e cozinha regional."
+        },
+        {
+          id: "res-8",
+          type: "restaurantes",
+          name: "Casarão do Café Norte Pioneiro",
+          city: "Cornélio Procópio",
+          category: "Cafés",
+          priceTier: "$",
+          priceValue: 35,
+          priceLabel: "R$ 35 / pessoa",
+          rating: 4.8,
+          specialty: "Bolo de milho cremoso, queijo fresco & café especial",
+          address: "Av. Minas Gerais, 620 - Centro, Cornélio Procópio - PR",
+          hours: "Seg a Sáb: 08h às 19h",
+          amenities: ["Grãos locais premiados", "Ambiente histórico", "Produtos artesanais para presente"],
+          tickets: [
+            { label: "Café Coado + Fatia de Bolo Caseiro", value: "R$ 21,00" },
+            { label: "Combo Tarde Caipira Completo", value: "R$ 35,00" }
+          ],
+          image: "https://images.unsplash.com/photo-1445116572660-236099ec97a0?auto=format&fit=crop&w=900&q=80",
+          description: "Parada acolhedora na capital do Norte Pioneiro para degustar cafés premiados da região acompanhados de quitandas paranaenses."
         }
       ]
     };
 
+    // Estado Global da Aplicação com Persistência
+    const savedSettings = JSON.parse(localStorage.getItem('nortepr_settings_v2') || '{}');
     let state = {
       tab: 'atracoes',
       city: 'Todas',
       category: 'Todas',
       price: 'all',
       search: '',
+      globalSearchView: false,
       compareMode: 'hoteis',
-      itinerary: JSON.parse(localStorage.getItem('nortepr_itinerary') || '[]'),
-      people: 2,
-      days: 2
+      selectedCompareIds: {
+        hoteis: ['hot-1', 'hot-2', 'hot-3'],
+        restaurantes: ['res-1', 'res-2', 'res-5']
+      },
+      itinerary: JSON.parse(localStorage.getItem('nortepr_itinerary_v2') || '[]'),
+      people: savedSettings.people || 2,
+      days: savedSettings.days || 2,
+      includeFuel: Boolean(savedSettings.includeFuel)
     };
 
+    // Inicialização
     function init() {
+      document.getElementById('statAttractionsCount').textContent = DATA.atracoes.length;
+      document.getElementById('statHotelsCount').textContent = DATA.hoteis.length;
+      document.getElementById('statRestCount').textContent = DATA.restaurantes.length;
+
+      document.getElementById('badge-tab-atracoes').textContent = DATA.atracoes.length;
+      document.getElementById('badge-tab-hoteis').textContent = DATA.hoteis.length;
+      document.getElementById('badge-tab-restaurantes').textContent = DATA.restaurantes.length;
+
+      document.getElementById('tripPeopleCount').textContent = state.people;
+      document.getElementById('tripDaysCount').textContent = state.days;
+      document.getElementById('lblDays').textContent = state.days;
+      document.getElementById('includeFuelCheck').checked = state.includeFuel;
+
       renderFilterPills();
       applyFilters();
-      renderComparisonTable();
+      renderComparisonSection();
       updateCartUI();
+      setupKeyboardAndFocusListeners();
       lucide.createIcons();
     }
 
-    function renderFilterPills() {
-      const cities = ['Todas', 'Londrina', 'Maringá', 'Apucarana', 'Rota do Café'];
-      const categories = ['Todas', 'Natureza & Parques', 'Cultura & História', 'Gastronomia', 'Ecoturismo', 'Cafés', 'Hotel Executivo', 'Econômico'];
+    function setupKeyboardAndFocusListeners() {
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          const modal = document.getElementById('detailModal');
+          const drawer = document.getElementById('itineraryDrawer');
+          if (!modal.classList.contains('hidden')) closeModal();
+          if (!drawer.classList.contains('hidden')) toggleDrawer(false);
+        }
+      });
+    }
 
-      document.getElementById('cityFilters').innerHTML = `<span class="text-xs font-bold uppercase text-stone-400 mr-1 shrink-0">Cidades:</span>` +
+    function lockBodyScroll(lock) {
+      document.body.style.overflow = lock ? 'hidden' : '';
+    }
+
+    function handleBackdropClose(event, elementId) {
+      if (event.target.id === elementId) {
+        if (elementId === 'detailModal') closeModal();
+      }
+    }
+
+    function saveSettings() {
+      localStorage.setItem('nortepr_settings_v2', JSON.stringify({
+        people: state.people,
+        days: state.days,
+        includeFuel: state.includeFuel
+      }));
+    }
+
+    // Navegação e Busca Rápida
+    function navigateToTab(tab) {
+      state.globalSearchView = false;
+      setMainTab(tab);
+      scrollToResults();
+    }
+
+    function scrollToResults() {
+      document.getElementById('resultsAnchor').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function scrollToComparator() {
+      document.getElementById('comparatorSection').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function resetAllAndScrollTop(e) {
+      if (e) e.preventDefault();
+      clearFilters();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function quickSearch(term) {
+      const input = document.getElementById('searchInput');
+      input.value = term;
+      state.globalSearchView = true;
+      handleSearchInput();
+      scrollToResults();
+    }
+
+    function clearSearchOnly() {
+      document.getElementById('searchInput').value = '';
+      state.globalSearchView = false;
+      handleSearchInput();
+    }
+
+    function handleSearchInput() {
+      state.search = document.getElementById('searchInput').value.toLowerCase().trim();
+      document.getElementById('clearSearchBtn').classList.toggle('hidden', !state.search);
+      applyFilters();
+    }
+
+    function toggleGlobalMode() {
+      state.globalSearchView = !state.globalSearchView;
+      applyFilters();
+    }
+
+    // Filtros Dinâmicos por Aba
+    function getCategoriesForCurrentTab() {
+      if (state.globalSearchView && state.search) {
+        return ['Todas', 'Natureza & Parques', 'Cultura & História', 'Ecoturismo', 'Gastronomia', 'Cafés', 'Hotel Executivo', 'Econômico'];
+      }
+      const map = {
+        atracoes: ['Todas', 'Natureza & Parques', 'Cultura & História', 'Ecoturismo', 'Gastronomia'],
+        hoteis: ['Todas', 'Hotel Executivo', 'Econômico'],
+        restaurantes: ['Todas', 'Gastronomia', 'Cafés', 'Econômico']
+      };
+      return map[state.tab] || ['Todas'];
+    }
+
+    function renderFilterPills() {
+      const cities = ['Todas', 'Londrina', 'Maringá', 'Apucarana', 'Rolândia', 'Cambé', 'Cornélio Procópio'];
+      const categories = getCategoriesForCurrentTab();
+
+      if (!categories.includes(state.category)) {
+        state.category = 'Todas';
+      }
+
+      document.getElementById('cityFilters').innerHTML =
+        `<span class="text-[11px] font-extrabold uppercase text-stone-400 mr-1 shrink-0 flex items-center gap-1"><i data-lucide="map-pin" class="w-3 h-3"></i> Cidades:</span>` +
         cities.map(c => `
-          <button onclick="setCity('${c}')" class="shrink-0 px-3 py-1.5 rounded-full text-xs font-bold transition ${state.city === c ? 'bg-emeraldDeep text-white' : 'bg-white text-stone-600 border border-stone-200 hover:bg-stone-100'}">
+          <button onclick="setCity('${c}')" class="shrink-0 px-3 py-1.5 rounded-full text-xs font-bold transition ${state.city === c ? 'bg-emeraldDeep text-white shadow-2xs' : 'bg-white text-stone-600 border border-stone-200 hover:bg-stone-100'}">
             ${c}
           </button>
         `).join('');
 
-      document.getElementById('categoryFilters').innerHTML = `<span class="text-xs font-bold uppercase text-stone-400 mr-1 shrink-0">Categoria:</span>` +
+      document.getElementById('categoryFilters').innerHTML =
+        `<span class="text-[11px] font-extrabold uppercase text-stone-400 mr-1 shrink-0 flex items-center gap-1"><i data-lucide="tag" class="w-3 h-3"></i> Categoria:</span>` +
         categories.map(cat => `
-          <button onclick="setCategory('${cat}')" class="shrink-0 px-3 py-1.5 rounded-full text-xs font-bold transition ${state.category === cat ? 'bg-terracotta text-white' : 'bg-white text-stone-600 border border-stone-200 hover:bg-stone-100'}">
+          <button onclick="setCategory('${cat}')" class="shrink-0 px-3 py-1.5 rounded-full text-xs font-bold transition ${state.category === cat ? 'bg-terracotta text-white shadow-2xs' : 'bg-white text-stone-600 border border-stone-200 hover:bg-stone-100'}">
             ${cat}
           </button>
         `).join('');
+
+      lucide.createIcons();
     }
 
     function setMainTab(tab) {
       state.tab = tab;
+      state.globalSearchView = false;
+      state.category = 'Todas';
+
       document.querySelectorAll('.tab-btn').forEach(btn => {
         const active = btn.dataset.tab === tab;
-        btn.className = `tab-btn flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-sm transition ${active ? 'bg-emeraldDeep text-white shadow-sm' : 'bg-white text-stone-700 hover:bg-stone-100 border border-stone-200'}`;
+        btn.className = `tab-btn flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-sm transition shrink-0 ${
+          active ? 'bg-emeraldDeep text-white shadow-sm' : 'bg-white text-stone-700 hover:bg-stone-100 border border-stone-200'
+        }`;
+        const badge = btn.querySelector('span:last-child');
+        if (badge) {
+          badge.className = active
+            ? 'text-[11px] bg-white/20 text-white px-2 py-0.5 rounded-full'
+            : 'text-[11px] bg-stone-100 text-stone-600 px-2 py-0.5 rounded-full';
+        }
       });
-      const titles = {
-        atracoes: 'Pontos Turísticos do Norte do Paraná',
-        hoteis: 'Hotéis & Pousadas Recomendados',
-        restaurantes: 'Restaurantes & Cafés Coloniais'
-      };
-      document.getElementById('sectionTitle').textContent = titles[tab];
+
+      renderFilterPills();
       applyFilters();
     }
 
-    function setCity(city) { state.city = city; renderFilterPills(); applyFilters(); }
-    function setCategory(cat) { state.category = cat; renderFilterPills(); applyFilters(); }
+    function setCity(city) {
+      state.city = city;
+      renderFilterPills();
+      applyFilters();
+    }
+
+    function setCategory(cat) {
+      state.category = cat;
+      renderFilterPills();
+      applyFilters();
+    }
+
     function setPriceFilter(price) {
       state.price = price;
       document.querySelectorAll('.price-btn').forEach(btn => {
         const active = btn.dataset.price === price;
-        btn.className = `price-btn px-2.5 py-1 rounded-lg text-xs font-bold transition ${active ? 'bg-coffeeDark text-white' : 'text-stone-600 hover:bg-stone-100'}`;
+        btn.className = `price-btn px-2.5 py-1 rounded-lg text-xs font-bold transition ${
+          active ? 'bg-coffeeDark text-white' : 'text-stone-600 hover:bg-stone-100'
+        }`;
       });
       applyFilters();
     }
 
     function clearFilters() {
       document.getElementById('searchInput').value = '';
+      document.getElementById('sortSelect').value = 'relevance';
       state.search = '';
+      state.globalSearchView = false;
       state.city = 'Todas';
       state.category = 'Todas';
+      document.getElementById('clearSearchBtn').classList.add('hidden');
       setPriceFilter('all');
       renderFilterPills();
       applyFilters();
     }
 
-    function applyFilters() {
-      state.search = document.getElementById('searchInput').value.toLowerCase().trim();
-      document.getElementById('clearSearchBtn').classList.toggle('hidden', !state.search);
+    // Filtragem + Busca Global + Ordenação
+    function matchItem(item) {
+      const matchCity = state.city === 'Todas' || item.city === state.city;
+      const matchCat = state.category === 'Todas' || item.category === state.category;
+      const matchPrice =
+        state.price === 'all' ||
+        (state.price === 'free' && item.priceValue === 0) ||
+        item.priceTier === state.price;
 
-      const list = DATA[state.tab].filter(item => {
-        const matchCity = state.city === 'Todas' || item.city === state.city;
-        const matchCat = state.category === 'Todas' || item.category === state.category;
-        const matchPrice = state.price === 'all' || item.priceTier === state.price;
-        const matchText = !state.search ||
-          item.name.toLowerCase().includes(state.search) ||
-          item.city.toLowerCase().includes(state.search) ||
-          item.description.toLowerCase().includes(state.search) ||
-          item.category.toLowerCase().includes(state.search);
-        return matchCity && matchCat && matchPrice && matchText;
-      });
+      const q = state.search;
+      const matchText =
+        !q ||
+        item.name.toLowerCase().includes(q) ||
+        item.city.toLowerCase().includes(q) ||
+        item.description.toLowerCase().includes(q) ||
+        item.category.toLowerCase().includes(q) ||
+        (item.specialty && item.specialty.toLowerCase().includes(q)) ||
+        (item.breakfast && item.breakfast.toLowerCase().includes(q)) ||
+        (q === 'gratuito' && item.priceValue === 0) ||
+        (q === 'grátis' && item.priceValue === 0) ||
+        (q === 'cachoeira' && (item.name.toLowerCase().includes('salto') || item.name.toLowerCase().includes('cachoeira')));
 
-      document.getElementById('resultsCount').textContent = `${list.length} ${list.length === 1 ? 'resultado' : 'resultados'}`;
-      renderCards(list);
+      return matchCity && matchCat && matchPrice && matchText;
     }
 
+    function sortItems(items) {
+      const mode = document.getElementById('sortSelect').value;
+      const copy = [...items];
+      if (mode === 'price_asc') copy.sort((a, b) => a.priceValue - b.priceValue);
+      if (mode === 'price_desc') copy.sort((a, b) => b.priceValue - a.priceValue);
+      if (mode === 'rating_desc') copy.sort((a, b) => b.rating - a.rating);
+      return copy;
+    }
+
+    function applyFilters() {
+      const banner = document.getElementById('globalSearchBanner');
+
+      if (state.search) {
+        const countAtr = DATA.atracoes.filter(matchItem).length;
+        const countHot = DATA.hoteis.filter(matchItem).length;
+        const countRes = DATA.restaurantes.filter(matchItem).length;
+
+        banner.classList.remove('hidden');
+        document.getElementById('searchTermDisplay').textContent = state.search;
+        document.getElementById('globalCountsBreakdown').textContent =
+          `Encontrados: ${countAtr} pontos turísticos • ${countHot} hotéis • ${countRes} restaurantes/cafés`;
+
+        const toggleBtn = document.getElementById('toggleGlobalBtn');
+        toggleBtn.textContent = state.globalSearchView
+          ? 'Filtrar Apenas na Aba Atual'
+          : `Ver Todos os ${countAtr + countHot + countRes} Resultados Juntos`;
+      } else {
+        banner.classList.add('hidden');
+        state.globalSearchView = false;
+      }
+
+      let rawList = [];
+      if (state.globalSearchView && state.search) {
+        rawList = [...DATA.atracoes, ...DATA.hoteis, ...DATA.restaurantes].filter(matchItem);
+        document.getElementById('sectionTitle').textContent = `Resultados Globais para "${state.search}"`;
+      } else {
+        rawList = DATA[state.tab].filter(matchItem);
+        const titles = {
+          atracoes: 'Pontos Turísticos do Norte do Paraná',
+          hoteis: 'Hotéis & Pousadas Recomendados',
+          restaurantes: 'Restaurantes & Cafés Coloniais'
+        };
+        document.getElementById('sectionTitle').textContent = titles[state.tab];
+      }
+
+      const finalList = sortItems(rawList);
+      document.getElementById('resultsCount').textContent = `${finalList.length} ${finalList.length === 1 ? 'resultado' : 'resultados'}`;
+      renderCards(finalList);
+    }
+
+    // Renderização dos Cards
     function renderCards(items) {
       const grid = document.getElementById('cardsGrid');
       if (!items.length) {
         grid.innerHTML = `
-          <div class="col-span-full bg-white rounded-3xl border border-stone-200 p-12 text-center">
-            <i data-lucide="search-x" class="w-10 h-10 text-stone-300 mx-auto mb-3"></i>
-            <h3 class="font-bold text-lg text-coffeeDark">Nenhum local encontrado</h3>
-            <p class="text-sm text-stone-500 mt-1 mb-4">Tente ajustar os filtros de cidade, categoria ou faixa de preço.</p>
-            <button onclick="clearFilters()" class="px-4 py-2 rounded-xl bg-emeraldDeep text-white text-xs font-bold">Resetar Filtros</button>
+          <div class="col-span-full bg-white rounded-3xl border border-stone-200 p-12 text-center shadow-2xs">
+            <i data-lucide="search-x" class="w-11 h-11 text-stone-300 mx-auto mb-3"></i>
+            <h3 class="font-extrabold text-lg text-coffeeDark">Nenhum local encontrado com esses filtros</h3>
+            <p class="text-sm text-stone-500 mt-1 mb-5 max-w-md mx-auto">
+              Experimente limpar o filtro de cidade, categoria ou faixa de preço para explorar todo o guia do Norte do Paraná.
+            </p>
+            <button onclick="clearFilters()" class="px-5 py-2.5 rounded-xl bg-emeraldDeep hover:bg-emeraldMid text-white text-xs font-bold transition shadow-xs">
+              Limpar Todos os Filtros
+            </button>
           </div>`;
         lucide.createIcons();
         return;
       }
 
+      const typeBadges = {
+        atracoes: { label: 'Atração', color: 'bg-emeraldDeep/90 text-white' },
+        hoteis: { label: 'Hotel', color: 'bg-coffeeDark/90 text-goldAccent' },
+        restaurantes: { label: 'Gastronomia', color: 'bg-terracotta/95 text-white' }
+      };
+
       grid.innerHTML = items.map(item => {
-        const inCart = state.itinerary.some(i => i.id === item.id);
+        const inCart = state.itinerary.find(i => i.id === item.id);
         const subInfo = item.type === 'atracoes'
-          ? `<span class="flex items-center gap-1"><i data-lucide="clock" class="w-3.5 h-3.5 text-terracotta"></i> ${item.duration}</span>`
+          ? `<span class="flex items-center gap-1.5"><i data-lucide="clock" class="w-3.5 h-3.5 text-terracotta shrink-0"></i> Duração média: ${item.duration}</span>`
           : item.type === 'hoteis'
-          ? `<span class="flex items-center gap-1"><i data-lucide="coffee" class="w-3.5 h-3.5 text-terracotta"></i> ${item.breakfast}</span>`
-          : `<span class="flex items-center gap-1"><i data-lucide="chef-hat" class="w-3.5 h-3.5 text-terracotta"></i> ${item.specialty}</span>`;
+          ? `<span class="flex items-center gap-1.5"><i data-lucide="coffee" class="w-3.5 h-3.5 text-terracotta shrink-0"></i> ${item.breakfast} • ${item.distance}</span>`
+          : `<span class="flex items-center gap-1.5"><i data-lucide="chef-hat" class="w-3.5 h-3.5 text-terracotta shrink-0"></i> ${item.specialty}</span>`;
+
+        const isFree = item.priceValue === 0;
 
         return `
-          <article class="group bg-white rounded-3xl border border-stone-200/90 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col">
+          <article class="group bg-white rounded-3xl border border-stone-200/90 overflow-hidden shadow-xs hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 flex flex-col">
             <div class="relative h-52 overflow-hidden bg-stone-200 cursor-pointer" onclick="openItemDetail('${item.id}', '${item.type}')">
-              <img src="${item.image}" alt="${item.name}" onerror="this.onerror=null;this.src='${FALLBACK_IMG}'" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
-              <div class="absolute top-3 left-3 flex gap-1.5">
-                <span class="bg-emeraldDeep/90 backdrop-blur-xs text-white text-[11px] font-bold px-2.5 py-1 rounded-full">${item.city}/PR</span>
-                <span class="bg-white/90 backdrop-blur-xs text-coffeeDark text-[11px] font-bold px-2.5 py-1 rounded-full">${item.priceTier}</span>
+              <img src="${item.image}" alt="${item.name}" loading="lazy" onerror="this.onerror=null;this.src='${FALLBACK_IMG}'" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/20"></div>
+
+              <div class="absolute top-3 left-3 flex flex-wrap gap-1.5">
+                <span class="bg-emeraldDeep/95 backdrop-blur-xs text-white text-[11px] font-bold px-2.5 py-1 rounded-full shadow-2xs">
+                  ${item.city}/PR
+                </span>
+                ${state.globalSearchView ? `<span class="${typeBadges[item.type].color} text-[11px] font-bold px-2.5 py-1 rounded-full">${typeBadges[item.type].label}</span>` : ''}
               </div>
-              <div class="absolute bottom-3 right-3 bg-coffeeDark/95 text-goldAccent text-xs font-extrabold px-3 py-1.5 rounded-xl shadow">
+
+              <div class="absolute top-3 right-3 bg-white/95 backdrop-blur-xs text-coffeeDark text-[11px] font-extrabold px-2.5 py-1 rounded-full shadow-2xs">
+                ${isFree ? 'GRÁTIS' : item.priceTier}
+              </div>
+
+              <div class="absolute bottom-3 right-3 ${isFree ? 'bg-emeraldDeep text-white' : 'bg-coffeeDark/95 text-goldAccent'} text-xs font-extrabold px-3 py-1.5 rounded-xl shadow-md">
                 ${item.priceLabel}
               </div>
             </div>
 
             <div class="p-5 flex-1 flex flex-col">
-              <div class="flex items-center justify-between text-xs text-stone-500 mb-1.5">
-                <span class="font-bold text-terracotta uppercase tracking-wide">${item.category}</span>
-                <span class="flex items-center gap-1 font-bold text-amber-600">
-                  <i data-lucide="star" class="w-3.5 h-3.5 fill-amber-400 text-amber-400"></i> ${item.rating}
+              <div class="flex items-center justify-between text-xs mb-1.5">
+                <span class="font-extrabold text-terracotta uppercase tracking-wider text-[11px]">${item.category}</span>
+                <span class="flex items-center gap-1 font-extrabold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full">
+                  <i data-lucide="star" class="w-3.5 h-3.5 fill-amber-400 text-amber-400"></i> ${item.rating.toFixed(1)}
                 </span>
               </div>
 
@@ -730,86 +1366,50 @@
                 ${item.name}
               </h3>
 
-              <p class="text-xs text-stone-600 line-clamp-2 mb-4 flex-1">${item.description}</p>
+              <p class="text-xs text-stone-600 line-clamp-2 mb-4 flex-1 leading-relaxed">${item.description}</p>
 
               <div class="text-xs text-stone-500 pb-4 mb-4 border-b border-stone-100 truncate">
                 ${subInfo}
               </div>
 
               <div class="flex items-center gap-2">
-                ${item.type === 'atracoes' ? `
-                  <button onclick="openItemDetail('${item.id}', 'atracoes')" class="flex-1 py-2.5 px-3 rounded-xl bg-stone-100 hover:bg-stone-200 text-coffeeDark font-bold text-xs transition">
-                    Ver Preços & Dicas
-                  </button>
-                ` : ''}
-                <button onclick="toggleItineraryItem('${item.id}', '${item.type}')" class="${item.type === 'atracoes' ? 'px-3.5' : 'w-full'} py-2.5 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 transition ${inCart ? 'bg-emeraldMid text-white' : 'bg-emeraldDeep hover:bg-emeraldMid text-white'}">
+                <button onclick="openItemDetail('${item.id}', '${item.type}')" class="flex-1 py-2.5 px-3 rounded-xl bg-stone-100 hover:bg-stone-200 text-coffeeDark font-bold text-xs transition flex items-center justify-center gap-1.5">
+                  <i data-lucide="info" class="w-3.5 h-3.5 text-emeraldDeep"></i>
+                  <span>Detalhes & Preços</span>
+                </button>
+                <button onclick="toggleItineraryItem('${item.id}', '${item.type}')" class="px-3.5 py-2.5 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 transition shrink-0 ${
+                  inCart ? 'bg-emeraldMid text-white shadow-2xs' : 'bg-emeraldDeep hover:bg-emeraldMid text-white shadow-2xs'
+                }">
                   <i data-lucide="${inCart ? 'check' : 'plus'}" class="w-4 h-4"></i>
-                  <span>${inCart ? 'No Roteiro' : 'Adicionar'}</span>
+                  <span>${inCart ? 'No Roteiro' : 'Roteiro'}</span>
                 </button>
               </div>
             </div>
           </article>
         `;
       }).join('');
+
       lucide.createIcons();
     }
 
+    // Modal de Detalhes Completo para Qualquer Tipo (Atração, Hotel ou Restaurante)
     function openItemDetail(id, type) {
       const item = DATA[type].find(i => i.id === id);
       if (!item) return;
 
-      if (type !== 'atracoes') {
-        toggleItineraryItem(id, type);
-        return;
-      }
+      const mapsQuery = encodeURIComponent(`${item.name}, ${item.city}, Paraná`);
+      const googleSearchQuery = encodeURIComponent(`${item.name} ${item.city} PR preços reservas`);
+      const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${mapsQuery}`;
+      const webSearchUrl = `https://www.google.com/search?q=${googleSearchQuery}`;
 
-      const nearbyHotels = DATA.hoteis.filter(h => (item.nearbyHotelIds || []).includes(h.id));
-      const nearbyRests = DATA.restaurantes.filter(r => (item.nearbyRestIds || []).includes(r.id));
+      const inCart = state.itinerary.some(i => i.id === item.id);
 
-      document.getElementById('modalContent').innerHTML = `
-        <div class="relative h-64 sm:h-72 bg-stone-200">
-          <img src="${item.image}" onerror="this.onerror=null;this.src='${FALLBACK_IMG}'" class="w-full h-full object-cover" />
-          <button onclick="closeModal()" class="absolute top-4 right-4 bg-black/60 hover:bg-black text-white p-2 rounded-full transition">
-            <i data-lucide="x" class="w-5 h-5"></i>
-          </button>
-          <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-6 text-white">
-            <span class="bg-terracotta text-[11px] font-bold px-2.5 py-1 rounded-full uppercase">${item.city}/PR • ${item.category}</span>
-            <h2 class="text-2xl sm:text-3xl font-extrabold mt-2">${item.name}</h2>
-          </div>
-        </div>
+      let extraContextualSection = '';
+      if (type === 'atracoes') {
+        const nearbyHotels = DATA.hoteis.filter(h => (item.nearbyHotelIds || []).includes(h.id));
+        const nearbyRests = DATA.restaurantes.filter(r => (item.nearbyRestIds || []).includes(r.id));
 
-        <div class="p-6 sm:p-8 space-y-6">
-          <p class="text-stone-700 text-sm sm:text-base leading-relaxed">${item.description}</p>
-
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-creamBg p-4 rounded-2xl border border-stone-200 text-xs">
-            <div class="flex items-start gap-2.5">
-              <i data-lucide="map-pin" class="w-4 h-4 text-emeraldDeep shrink-0 mt-0.5"></i>
-              <div><strong class="block text-coffeeDark">Endereço:</strong> ${item.address}</div>
-            </div>
-            <div class="flex items-start gap-2.5">
-              <i data-lucide="clock" class="w-4 h-4 text-emeraldDeep shrink-0 mt-0.5"></i>
-              <div><strong class="block text-coffeeDark">Funcionamento:</strong> ${item.hours}</div>
-            </div>
-          </div>
-
-          <div>
-            <h4 class="font-extrabold text-coffeeDark text-sm uppercase tracking-wider mb-3 flex items-center gap-2">
-              <i data-lucide="ticket" class="w-4 h-4 text-terracotta"></i> Tabela de Ingressos & Valores
-            </h4>
-            <div class="border border-stone-200 rounded-2xl overflow-hidden">
-              <table class="w-full text-sm">
-                <tbody class="divide-y divide-stone-200">
-                  ${item.tickets.map(t => `
-                    <tr class="bg-white">
-                      <td class="px-4 py-2.5 text-stone-700 font-medium">${t.label}</td>
-                      <td class="px-4 py-2.5 text-right font-extrabold text-emeraldDeep">${t.value}</td>
-                    </tr>
-                  `).join('')}
-                </tbody>
-              </table>
-            </div>
-          </div>
-
+        extraContextualSection = `
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div class="bg-stone-50 p-4 rounded-2xl border border-stone-200">
               <h5 class="font-extrabold text-xs uppercase text-emeraldDeep mb-3 flex items-center gap-1.5">
@@ -818,8 +1418,8 @@
               <div class="space-y-2.5">
                 ${nearbyHotels.map(h => `
                   <div class="bg-white p-3 rounded-xl border border-stone-200 flex items-center justify-between gap-2">
-                    <div>
-                      <p class="font-bold text-xs text-coffeeDark">${h.name}</p>
+                    <div class="min-w-0">
+                      <p class="font-bold text-xs text-coffeeDark truncate">${h.name}</p>
                       <p class="text-[11px] text-stone-500">${h.distance} • <strong class="text-emeraldDeep">${h.priceLabel}</strong></p>
                     </div>
                     <button onclick="toggleItineraryItem('${h.id}', 'hoteis')" class="px-2.5 py-1.5 rounded-lg bg-emeraldDeep text-white text-[11px] font-bold hover:bg-emeraldMid shrink-0">
@@ -837,9 +1437,9 @@
               <div class="space-y-2.5">
                 ${nearbyRests.map(r => `
                   <div class="bg-white p-3 rounded-xl border border-stone-200 flex items-center justify-between gap-2">
-                    <div>
-                      <p class="font-bold text-xs text-coffeeDark">${r.name}</p>
-                      <p class="text-[11px] text-stone-500">${r.specialty} • <strong class="text-terracotta">${r.priceLabel}</strong></p>
+                    <div class="min-w-0">
+                      <p class="font-bold text-xs text-coffeeDark truncate">${r.name}</p>
+                      <p class="text-[11px] text-stone-500 truncate">${r.specialty} • <strong class="text-terracotta">${r.priceLabel}</strong></p>
                     </div>
                     <button onclick="toggleItineraryItem('${r.id}', 'restaurantes')" class="px-2.5 py-1.5 rounded-lg bg-terracotta text-white text-[11px] font-bold hover:opacity-90 shrink-0">
                       + Refeição
@@ -849,108 +1449,363 @@
               </div>
             </div>
           </div>
+        `;
+      } else if (item.amenities && item.amenities.length) {
+        extraContextualSection = `
+          <div class="bg-stone-50 p-4 rounded-2xl border border-stone-200">
+            <h5 class="font-extrabold text-xs uppercase text-coffeeDark mb-3 flex items-center gap-1.5">
+              <i data-lucide="sparkles" class="w-4 h-4 text-terracotta"></i> Diferenciais & Comodidades
+            </h5>
+            <div class="flex flex-wrap gap-2">
+              ${item.amenities.map(am => `
+                <span class="inline-flex items-center gap-1.5 bg-white border border-stone-200 px-3 py-1.5 rounded-xl text-xs font-semibold text-stone-700">
+                  <i data-lucide="check" class="w-3.5 h-3.5 text-emeraldMid"></i> ${am}
+                </span>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      }
 
-          <div class="flex justify-end gap-3 pt-2">
-            <button onclick="closeModal()" class="px-5 py-2.5 rounded-xl border border-stone-300 font-bold text-xs text-stone-600">Fechar</button>
-            <button onclick="toggleItineraryItem('${item.id}', 'atracoes'); closeModal();" class="px-5 py-2.5 rounded-xl bg-emeraldDeep text-white font-bold text-xs shadow hover:bg-emeraldMid">
-              Adicionar Atração ao Roteiro
-            </button>
+      document.getElementById('modalContent').innerHTML = `
+        <div class="relative h-60 sm:h-72 bg-stone-200 shrink-0">
+          <img src="${item.image}" alt="${item.name}" onerror="this.onerror=null;this.src='${FALLBACK_IMG}'" class="w-full h-full object-cover" />
+          <button onclick="closeModal()" aria-label="Fechar detalhes" class="absolute top-4 right-4 bg-black/65 hover:bg-black text-white p-2.5 rounded-full transition">
+            <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+          <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/85 via-black/45 to-transparent p-6 text-white">
+            <div class="flex flex-wrap items-center gap-2 mb-1.5">
+              <span class="bg-terracotta text-[11px] font-bold px-2.5 py-0.5 rounded-full uppercase">${item.city}/PR</span>
+              <span class="bg-white/20 backdrop-blur-xs text-[11px] font-bold px-2.5 py-0.5 rounded-full">${item.category}</span>
+              <span class="bg-amber-400/25 text-amber-300 text-[11px] font-extrabold px-2.5 py-0.5 rounded-full flex items-center gap-1">
+                ★ ${item.rating.toFixed(1)}
+              </span>
+            </div>
+            <h2 class="text-2xl sm:text-3xl font-extrabold leading-tight">${item.name}</h2>
+          </div>
+        </div>
+
+        <div class="p-6 sm:p-8 space-y-6">
+          <p class="text-stone-700 text-sm sm:text-base leading-relaxed">${item.description}</p>
+
+          ${item.tips ? `
+            <div class="bg-amber-50/80 border border-amber-200/80 rounded-2xl p-4 flex items-start gap-3">
+              <i data-lucide="lightbulb" class="w-5 h-5 text-amber-600 shrink-0 mt-0.5"></i>
+              <div class="text-xs sm:text-sm text-amber-950">
+                <strong class="font-extrabold">Dica do Especialista:</strong> ${item.tips}
+              </div>
+            </div>
+          ` : ''}
+
+          <!-- Endereço e Horários -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-creamBg p-4 rounded-2xl border border-stone-200 text-xs">
+            <div class="flex items-start gap-2.5">
+              <i data-lucide="map-pin" class="w-4 h-4 text-emeraldDeep shrink-0 mt-0.5"></i>
+              <div>
+                <strong class="block text-coffeeDark mb-0.5">Localização:</strong>
+                <span class="text-stone-600">${item.address || item.city + ' - PR'}</span>
+              </div>
+            </div>
+            <div class="flex items-start gap-2.5">
+              <i data-lucide="clock" class="w-4 h-4 text-emeraldDeep shrink-0 mt-0.5"></i>
+              <div>
+                <strong class="block text-coffeeDark mb-0.5">Horários / Funcionamento:</strong>
+                <span class="text-stone-600">${item.hours || 'Consulte disponibilidade'}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tabela Detalhada de Preços -->
+          <div>
+            <h4 class="font-extrabold text-coffeeDark text-xs uppercase tracking-wider mb-3 flex items-center gap-2">
+              <i data-lucide="ticket" class="w-4 h-4 text-terracotta"></i> Tabela de Preços & Tarifas de Referência (2026)
+            </h4>
+            <div class="border border-stone-200 rounded-2xl overflow-hidden">
+              <table class="w-full text-sm">
+                <tbody class="divide-y divide-stone-200">
+                  ${(item.tickets || [{ label: 'Valor Médio Estimado', value: item.priceLabel }]).map(t => `
+                    <tr class="bg-white hover:bg-stone-50/70">
+                      <td class="px-4 py-3 text-stone-700 font-medium">${t.label}</td>
+                      <td class="px-4 py-3 text-right font-extrabold text-emeraldDeep">${t.value}</td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          ${extraContextualSection}
+
+          <!-- Links Externos de Pesquisa & Ações -->
+          <div class="pt-3 border-t border-stone-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div class="flex flex-wrap gap-2">
+              <a href="${mapsUrl}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-stone-100 hover:bg-stone-200 text-coffeeDark font-bold text-xs transition">
+                <i data-lucide="navigation" class="w-3.5 h-3.5 text-emeraldDeep"></i> Abrir no Google Maps
+              </a>
+              <a href="${webSearchUrl}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-stone-100 hover:bg-stone-200 text-coffeeDark font-bold text-xs transition">
+                <i data-lucide="external-link" class="w-3.5 h-3.5 text-terracotta"></i> Pesquisar Tarifas Online
+              </a>
+            </div>
+
+            <div class="flex items-center gap-2 justify-end">
+              <button onclick="closeModal()" class="px-4 py-2.5 rounded-xl border border-stone-300 font-bold text-xs text-stone-600 hover:bg-stone-100 transition">
+                Fechar
+              </button>
+              <button onclick="toggleItineraryItem('${item.id}', '${item.type}'); closeModal();" class="px-5 py-2.5 rounded-xl ${inCart ? 'bg-emeraldMid' : 'bg-emeraldDeep hover:bg-emeraldMid'} text-white font-bold text-xs shadow-sm transition">
+                ${inCart ? 'Remover do Roteiro' : '+ Adicionar ao Roteiro'}
+              </button>
+            </div>
           </div>
         </div>
       `;
 
       document.getElementById('detailModal').classList.remove('hidden');
+      lockBodyScroll(true);
       lucide.createIcons();
     }
 
     function closeModal() {
       document.getElementById('detailModal').classList.add('hidden');
+      lockBodyScroll(false);
     }
 
+    // Comparador Lado a Lado Interativo (Até 3 itens) + Tabela Geral
     function switchCompareTable(mode) {
       state.compareMode = mode;
-      document.getElementById('cmpBtnHoteis').className = `px-4 py-2 rounded-xl text-xs font-bold transition ${mode === 'hoteis' ? 'bg-emeraldDeep text-white' : 'bg-stone-100 text-stone-700'}`;
-      document.getElementById('cmpBtnRest').className = `px-4 py-2 rounded-xl text-xs font-bold transition ${mode === 'restaurantes' ? 'bg-emeraldDeep text-white' : 'bg-stone-100 text-stone-700'}`;
-      renderComparisonTable();
+      document.getElementById('cmpBtnHoteis').className = `px-4 py-2.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 ${
+        mode === 'hoteis' ? 'bg-emeraldDeep text-white shadow-xs' : 'bg-stone-100 text-stone-700 hover:bg-stone-200'
+      }`;
+      document.getElementById('cmpBtnRest').className = `px-4 py-2.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 ${
+        mode === 'restaurantes' ? 'bg-emeraldDeep text-white shadow-xs' : 'bg-stone-100 text-stone-700 hover:bg-stone-200'
+      }`;
+      renderComparisonSection();
     }
 
-    function renderComparisonTable() {
+    function toggleCompareSelection(id) {
+      const mode = state.compareMode;
+      const list = state.selectedCompareIds[mode];
+      const idx = list.indexOf(id);
+
+      if (idx > -1) {
+        list.splice(idx, 1);
+      } else {
+        if (list.length >= 3) {
+          showToast('Você pode comparar até 3 locais lado a lado por vez.');
+          return;
+        }
+        list.push(id);
+      }
+      renderComparisonSection();
+    }
+
+    function clearSelectedCompare() {
+      state.selectedCompareIds[state.compareMode] = [];
+      renderComparisonSection();
+    }
+
+    function renderComparisonSection() {
+      document.getElementById('cmpPeopleLabel').textContent = `${state.people} ${state.people === 1 ? 'pessoa' : 'pessoas'}`;
+      document.getElementById('cmpDaysLabel').textContent = `${state.days} ${state.days === 1 ? 'diária' : 'diárias'}`;
+
+      const mode = state.compareMode;
+      const selectedIds = state.selectedCompareIds[mode];
+      const sourceList = DATA[mode];
+      const selectedItems = selectedIds.map(id => sourceList.find(x => x.id === id)).filter(Boolean);
+
+      const clearBtn = document.getElementById('clearCmpBtn');
+      if (selectedItems.length > 0) {
+        clearBtn.classList.remove('hidden');
+        clearBtn.textContent = `Limpar seleção (${selectedItems.length}/3)`;
+      } else {
+        clearBtn.classList.add('hidden');
+      }
+
+      const sideContainer = document.getElementById('sideBySideCards');
+      if (!selectedItems.length) {
+        sideContainer.innerHTML = `
+          <div class="bg-creamBg border border-dashed border-stone-300 rounded-2xl p-6 text-center text-xs text-stone-500">
+            Marque as caixas de seleção na tabela abaixo para comparar até <strong>3 ${mode === 'hoteis' ? 'hotéis' : 'restaurantes'}</strong> lado a lado.
+          </div>
+        `;
+      } else {
+        const roomsNeeded = Math.ceil(state.people / 2);
+        const minPrice = Math.min(...selectedItems.map(i => i.priceValue));
+
+        sideContainer.innerHTML = `
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            ${selectedItems.map(item => {
+              const isBestValue = item.priceValue === minPrice && selectedItems.length > 1;
+              const estimatedTripCost = mode === 'hoteis'
+                ? item.priceValue * state.days * roomsNeeded
+                : item.priceValue * state.people;
+
+              return `
+                <div class="relative bg-creamBg rounded-2xl border ${isBestValue ? 'border-emeraldMid ring-2 ring-emeraldMid/20' : 'border-stone-200'} p-5 flex flex-col justify-between">
+                  ${isBestValue ? `<span class="absolute -top-2.5 left-4 bg-emeraldDeep text-white text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-full">Menor Custo</span>` : ''}
+                  <button onclick="toggleCompareSelection('${item.id}')" title="Remover da comparação" class="absolute top-3 right-3 text-stone-400 hover:text-red-500 p-1">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                  </button>
+
+                  <div>
+                    <span class="text-[11px] font-bold text-terracotta uppercase">${item.city}/PR • ★ ${item.rating.toFixed(1)}</span>
+                    <h3 class="font-extrabold text-base text-coffeeDark mt-0.5 mb-3 pr-5">${item.name}</h3>
+
+                    <div class="space-y-2 text-xs border-t border-stone-200/80 pt-3">
+                      <div class="flex justify-between">
+                        <span class="text-stone-500">${mode === 'hoteis' ? 'Diária unitária:' : 'Por pessoa:'}</span>
+                        <span class="font-extrabold text-coffeeDark">R$ ${item.priceValue.toFixed(2).replace('.', ',')}</span>
+                      </div>
+                      <div class="flex justify-between">
+                        <span class="text-stone-500">${mode === 'hoteis' ? 'Café da manhã:' : 'Especialidade:'}</span>
+                        <span class="font-semibold text-stone-700 text-right max-w-[160px] truncate">${mode === 'hoteis' ? item.breakfast : item.specialty}</span>
+                      </div>
+                      <div class="flex justify-between">
+                        <span class="text-stone-500">${mode === 'hoteis' ? 'Proximidade:' : 'Categoria:'}</span>
+                        <span class="font-semibold text-stone-700">${mode === 'hoteis' ? item.distance : item.category}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="mt-4 pt-3 border-t border-stone-200 flex items-center justify-between">
+                    <div>
+                      <span class="block text-[10px] uppercase font-bold text-stone-500">
+                        ${mode === 'hoteis' ? `Total (${roomsNeeded} qto × ${state.days}d)` : `Total (${state.people} pessoas)`}
+                      </span>
+                      <span class="text-base font-extrabold text-emeraldDeep">R$ ${estimatedTripCost.toFixed(2).replace('.', ',')}</span>
+                    </div>
+                    <button onclick="toggleItineraryItem('${item.id}', '${mode}')" class="px-3 py-2 rounded-xl bg-emeraldDeep hover:bg-emeraldMid text-white text-xs font-bold transition">
+                      + Roteiro
+                    </button>
+                  </div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        `;
+      }
+
       const table = document.getElementById('comparisonTable');
-      if (state.compareMode === 'hoteis') {
+      if (mode === 'hoteis') {
         table.innerHTML = `
           <thead>
-            <tr class="border-b-2 border-stone-200 text-xs uppercase text-stone-500">
+            <tr class="border-b border-stone-200 bg-stone-50/70 text-[11px] uppercase text-stone-500">
+              <th class="py-3 px-4 w-10">Comp.</th>
               <th class="py-3 px-4">Hotel / Pousada</th>
               <th class="py-3 px-4">Cidade</th>
               <th class="py-3 px-4">Perfil</th>
               <th class="py-3 px-4">Café da Manhã</th>
               <th class="py-3 px-4">Localização</th>
               <th class="py-3 px-4">Diária Média</th>
-              <th class="py-3 px-4 text-right">Ação</th>
+              <th class="py-3 px-4 text-right">Ações</th>
             </tr>
           </thead>
-          <tbody class="divide-y divide-stone-100 text-sm">
-            ${DATA.hoteis.map(h => `
-              <tr class="hover:bg-creamBg transition">
-                <td class="py-3.5 px-4 font-bold text-coffeeDark">${h.name}</td>
-                <td class="py-3.5 px-4 text-stone-600">${h.city}/PR</td>
-                <td class="py-3.5 px-4"><span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-stone-100 text-stone-700">${h.category} (${h.priceTier})</span></td>
-                <td class="py-3.5 px-4 text-stone-600">${h.breakfast}</td>
-                <td class="py-3.5 px-4 text-stone-600">${h.distance}</td>
-                <td class="py-3.5 px-4 font-extrabold text-emeraldDeep">${h.priceLabel}</td>
-                <td class="py-3.5 px-4 text-right">
-                  <button onclick="toggleItineraryItem('${h.id}', 'hoteis')" class="px-3 py-1.5 rounded-lg bg-emeraldDeep hover:bg-emeraldMid text-white text-xs font-bold">
-                    + Roteiro
-                  </button>
-                </td>
-              </tr>
-            `).join('')}
+          <tbody class="divide-y divide-stone-100 text-xs sm:text-sm">
+            ${DATA.hoteis.map(h => {
+              const checked = selectedIds.includes(h.id);
+              return `
+                <tr class="hover:bg-creamBg/70 transition ${checked ? 'bg-emeraldDeep/5' : ''}">
+                  <td class="py-3.5 px-4">
+                    <input type="checkbox" ${checked ? 'checked' : ''} onchange="toggleCompareSelection('${h.id}')" aria-label="Comparar ${h.name}" class="w-4 h-4 accent-emeraldDeep rounded cursor-pointer" />
+                  </td>
+                  <td class="py-3.5 px-4 font-bold text-coffeeDark cursor-pointer hover:text-emeraldMid" onclick="openItemDetail('${h.id}', 'hoteis')">
+                    ${h.name} <span class="text-xs text-amber-600 font-bold ml-1">★ ${h.rating.toFixed(1)}</span>
+                  </td>
+                  <td class="py-3.5 px-4 text-stone-600">${h.city}/PR</td>
+                  <td class="py-3.5 px-4"><span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-stone-100 text-stone-700">${h.category} (${h.priceTier})</span></td>
+                  <td class="py-3.5 px-4 text-stone-600">${h.breakfast}</td>
+                  <td class="py-3.5 px-4 text-stone-600">${h.distance}</td>
+                  <td class="py-3.5 px-4 font-extrabold text-emeraldDeep">${h.priceLabel}</td>
+                  <td class="py-3.5 px-4 text-right whitespace-nowrap">
+                    <button onclick="openItemDetail('${h.id}', 'hoteis')" class="px-2.5 py-1.5 rounded-lg bg-stone-100 hover:bg-stone-200 text-coffeeDark text-xs font-bold mr-1">
+                      Detalhes
+                    </button>
+                    <button onclick="toggleItineraryItem('${h.id}', 'hoteis')" class="px-3 py-1.5 rounded-lg bg-emeraldDeep hover:bg-emeraldMid text-white text-xs font-bold">
+                      + Roteiro
+                    </button>
+                  </td>
+                </tr>
+              `;
+            }).join('')}
           </tbody>`;
       } else {
         table.innerHTML = `
           <thead>
-            <tr class="border-b-2 border-stone-200 text-xs uppercase text-stone-500">
+            <tr class="border-b border-stone-200 bg-stone-50/70 text-[11px] uppercase text-stone-500">
+              <th class="py-3 px-4 w-10">Comp.</th>
               <th class="py-3 px-4">Restaurante / Café</th>
               <th class="py-3 px-4">Cidade</th>
               <th class="py-3 px-4">Especialidade</th>
               <th class="py-3 px-4">Faixa</th>
               <th class="py-3 px-4">Ticket Médio</th>
-              <th class="py-3 px-4 text-right">Ação</th>
+              <th class="py-3 px-4 text-right">Ações</th>
             </tr>
           </thead>
-          <tbody class="divide-y divide-stone-100 text-sm">
-            ${DATA.restaurantes.map(r => `
-              <tr class="hover:bg-creamBg transition">
-                <td class="py-3.5 px-4 font-bold text-coffeeDark">${r.name}</td>
-                <td class="py-3.5 px-4 text-stone-600">${r.city}/PR</td>
-                <td class="py-3.5 px-4 text-stone-600">${r.specialty}</td>
-                <td class="py-3.5 px-4"><span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-50 text-terracotta">${r.priceTier}</span></td>
-                <td class="py-3.5 px-4 font-extrabold text-terracotta">${r.priceLabel}</td>
-                <td class="py-3.5 px-4 text-right">
-                  <button onclick="toggleItineraryItem('${r.id}', 'restaurantes')" class="px-3 py-1.5 rounded-lg bg-terracotta hover:opacity-90 text-white text-xs font-bold">
-                    + Roteiro
-                  </button>
-                </td>
-              </tr>
-            `).join('')}
+          <tbody class="divide-y divide-stone-100 text-xs sm:text-sm">
+            ${DATA.restaurantes.map(r => {
+              const checked = selectedIds.includes(r.id);
+              return `
+                <tr class="hover:bg-creamBg/70 transition ${checked ? 'bg-terracotta/5' : ''}">
+                  <td class="py-3.5 px-4">
+                    <input type="checkbox" ${checked ? 'checked' : ''} onchange="toggleCompareSelection('${r.id}')" aria-label="Comparar ${r.name}" class="w-4 h-4 accent-terracotta rounded cursor-pointer" />
+                  </td>
+                  <td class="py-3.5 px-4 font-bold text-coffeeDark cursor-pointer hover:text-terracotta" onclick="openItemDetail('${r.id}', 'restaurantes')">
+                    ${r.name} <span class="text-xs text-amber-600 font-bold ml-1">★ ${r.rating.toFixed(1)}</span>
+                  </td>
+                  <td class="py-3.5 px-4 text-stone-600">${r.city}/PR</td>
+                  <td class="py-3.5 px-4 text-stone-600">${r.specialty}</td>
+                  <td class="py-3.5 px-4"><span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-50 text-terracotta">${r.priceTier}</span></td>
+                  <td class="py-3.5 px-4 font-extrabold text-terracotta">${r.priceLabel}</td>
+                  <td class="py-3.5 px-4 text-right whitespace-nowrap">
+                    <button onclick="openItemDetail('${r.id}', 'restaurantes')" class="px-2.5 py-1.5 rounded-lg bg-stone-100 hover:bg-stone-200 text-coffeeDark text-xs font-bold mr-1">
+                      Detalhes
+                    </button>
+                    <button onclick="toggleItineraryItem('${r.id}', 'restaurantes')" class="px-3 py-1.5 rounded-lg bg-terracotta hover:opacity-90 text-white text-xs font-bold">
+                      + Roteiro
+                    </button>
+                  </td>
+                </tr>
+              `;
+            }).join('')}
           </tbody>`;
       }
+
+      lucide.createIcons();
+    }
+
+    // Gestão do Roteiro & Orçamento Avançado
+    function persistItinerary() {
+      localStorage.setItem('nortepr_itinerary_v2', JSON.stringify(state.itinerary));
     }
 
     function toggleItineraryItem(id, type) {
       const idx = state.itinerary.findIndex(i => i.id === id);
       if (idx > -1) {
         state.itinerary.splice(idx, 1);
-        showToast('Removido do roteiro');
+        showToast('Item removido do seu roteiro.');
       } else {
         const item = DATA[type].find(i => i.id === id);
         if (item) {
-          state.itinerary.push({ id: item.id, type: item.type, name: item.name, city: item.city, priceValue: item.priceValue });
-          showToast(`"${item.name}" adicionado!`);
+          state.itinerary.push({
+            id: item.id,
+            type: item.type,
+            name: item.name,
+            city: item.city,
+            priceValue: item.priceValue,
+            qty: 1
+          });
+          showToast(`"${item.name}" adicionado ao roteiro!`);
         }
       }
-      localStorage.setItem('nortepr_itinerary', JSON.stringify(state.itinerary));
+      persistItinerary();
       applyFilters();
+      updateCartUI();
+    }
+
+    function changeItemQty(id, delta) {
+      const item = state.itinerary.find(i => i.id === id);
+      if (!item) return;
+      item.qty = Math.max(1, (item.qty || 1) + delta);
+      persistItinerary();
       updateCartUI();
     }
 
@@ -959,6 +1814,14 @@
       document.getElementById('tripPeopleCount').textContent = state.people;
       document.getElementById('tripDaysCount').textContent = state.days;
       document.getElementById('lblDays').textContent = state.days;
+      saveSettings();
+      updateCartUI();
+      renderComparisonSection();
+    }
+
+    function toggleFuelEstimate() {
+      state.includeFuel = document.getElementById('includeFuelCheck').checked;
+      saveSettings();
       updateCartUI();
     }
 
@@ -968,82 +1831,179 @@
 
       if (!state.itinerary.length) {
         listEl.innerHTML = `
-          <div class="text-center py-12 text-stone-400">
-            <i data-lucide="map" class="w-10 h-10 mx-auto mb-2 opacity-40"></i>
-            <p class="text-sm font-bold text-stone-600">Seu roteiro está vazio</p>
-            <p class="text-xs mt-1">Adicione atrações, hotéis e restaurantes para calcular o orçamento.</p>
+          <div class="text-center py-12 px-4 text-stone-400">
+            <i data-lucide="map" class="w-11 h-11 mx-auto mb-3 opacity-40"></i>
+            <p class="text-sm font-extrabold text-coffeeDark">Seu roteiro está vazio</p>
+            <p class="text-xs mt-1 leading-relaxed">
+              Adicione pontos turísticos, hotéis e restaurantes pelo guia para simular automaticamente o orçamento total da sua viagem.
+            </p>
           </div>`;
         lucide.createIcons();
       } else {
-        const typeLabels = { atracoes: 'Passeio', hoteis: 'Hotel (diária)', restaurantes: 'Refeição' };
-        listEl.innerHTML = state.itinerary.map(item => `
-          <div class="bg-white border border-stone-200 rounded-2xl p-3.5 flex items-center justify-between gap-3 shadow-2xs">
-            <div>
-              <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-stone-100 text-stone-600">${typeLabels[item.type]} • ${item.city}</span>
-              <h4 class="font-bold text-sm text-coffeeDark mt-1">${item.name}</h4>
-              <p class="text-xs font-semibold text-emeraldDeep">${item.priceValue === 0 ? 'Gratuito' : `R$ ${item.priceValue.toFixed(2).replace('.', ',')}`}</p>
+        const typeLabels = {
+          atracoes: 'Passeio / Ingresso',
+          hoteis: 'Hotel (por diária)',
+          restaurantes: 'Refeição / Café'
+        };
+
+        listEl.innerHTML = state.itinerary.map(item => {
+          const qty = item.qty || 1;
+          const unitLabel = item.type === 'hoteis' ? 'fator diária' : 'visita(s)';
+
+          return `
+            <div class="bg-white border border-stone-200 rounded-2xl p-3.5 shadow-2xs space-y-2.5">
+              <div class="flex items-start justify-between gap-2">
+                <div>
+                  <span class="text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded bg-stone-100 text-stone-600">
+                    ${typeLabels[item.type]} • ${item.city}
+                  </span>
+                  <h4 class="font-bold text-sm text-coffeeDark mt-1 leading-snug">${item.name}</h4>
+                </div>
+                <button onclick="toggleItineraryItem('${item.id}', '${item.type}')" aria-label="Remover item" class="p-1.5 text-stone-400 hover:text-red-500 transition shrink-0">
+                  <i data-lucide="trash-2" class="w-4 h-4"></i>
+                </button>
+              </div>
+
+              <div class="flex items-center justify-between pt-2 border-t border-stone-100 text-xs">
+                <span class="font-extrabold text-emeraldDeep">
+                  ${item.priceValue === 0 ? 'Gratuito' : `R$ ${item.priceValue.toFixed(2).replace('.', ',')} / un.`}
+                </span>
+
+                ${item.type !== 'hoteis' ? `
+                  <div class="flex items-center gap-1.5 bg-stone-100 rounded-lg px-1.5 py-0.5">
+                    <button onclick="changeItemQty('${item.id}', -1)" class="px-1.5 font-bold text-stone-600 hover:text-coffeeDark">-</button>
+                    <span class="font-bold text-coffeeDark">${qty}×</span>
+                    <button onclick="changeItemQty('${item.id}', 1)" class="px-1.5 font-bold text-stone-600 hover:text-coffeeDark">+</button>
+                  </div>
+                ` : `<span class="text-[11px] text-stone-500 font-semibold">${state.days} diária(s)</span>`}
+              </div>
             </div>
-            <button onclick="toggleItineraryItem('${item.id}', '${item.type}')" class="p-2 text-stone-400 hover:text-red-500 transition">
-              <i data-lucide="trash-2" class="w-4 h-4"></i>
-            </button>
-          </div>
-        `).join('');
+          `;
+        }).join('');
         lucide.createIcons();
       }
 
-      let atrTotal = 0, hotTotal = 0, foodTotal = 0;
+      let atrTotal = 0;
+      let hotTotal = 0;
+      let foodTotal = 0;
       const roomsNeeded = Math.ceil(state.people / 2);
 
       state.itinerary.forEach(item => {
-        if (item.type === 'atracoes') atrTotal += item.priceValue * state.people;
+        const qty = item.qty || 1;
+        if (item.type === 'atracoes') atrTotal += item.priceValue * state.people * qty;
         if (item.type === 'hoteis') hotTotal += item.priceValue * state.days * roomsNeeded;
-        if (item.type === 'restaurantes') foodTotal += item.priceValue * state.people;
+        if (item.type === 'restaurantes') foodTotal += item.priceValue * state.people * qty;
       });
 
-      const fmt = v => `R$ ${v.toFixed(2).replace('.', ',')}`;
-      document.getElementById('costAttractions').textContent = fmt(atrTotal);
-      document.getElementById('costHotels').textContent = fmt(hotTotal);
-      document.getElementById('costFood').textContent = fmt(foodTotal);
-      document.getElementById('costTotal').textContent = fmt(atrTotal + hotTotal + foodTotal);
+      // Estimativa de combustível baseada nas cidades distintas no roteiro
+      const uniqueCities = [...new Set(state.itinerary.map(i => i.city))];
+      const fuelEstimate = state.includeFuel && uniqueCities.length > 0
+        ? (uniqueCities.length === 1 ? 65 : uniqueCities.length * 95)
+        : 0;
+
+      const fuelRow = document.getElementById('fuelCostRow');
+      if (state.includeFuel) {
+        fuelRow.classList.remove('hidden');
+        document.getElementById('fuelLabel').textContent = `Combustível (${uniqueCities.length || 1} ${uniqueCities.length === 1 ? 'cidade' : 'cidades'}):`;
+        document.getElementById('costFuel').textContent = formatBRL(fuelEstimate);
+      } else {
+        fuelRow.classList.add('hidden');
+      }
+
+      const grandTotal = atrTotal + hotTotal + foodTotal + fuelEstimate;
+      const perPerson = grandTotal / state.people;
+
+      document.getElementById('lblRooms').textContent = roomsNeeded;
+      document.getElementById('costAttractions').textContent = formatBRL(atrTotal);
+      document.getElementById('costHotels').textContent = formatBRL(hotTotal);
+      document.getElementById('costFood').textContent = formatBRL(foodTotal);
+      document.getElementById('costTotal').textContent = formatBRL(grandTotal);
+      document.getElementById('costPerPerson').textContent = `${formatBRL(perPerson)} por viajante`;
+    }
+
+    function formatBRL(val) {
+      return `R$ ${val.toFixed(2).replace('.', ',')}`;
     }
 
     function clearItinerary() {
       state.itinerary = [];
-      localStorage.removeItem('nortepr_itinerary');
+      persistItinerary();
       applyFilters();
       updateCartUI();
+      showToast('Roteiro limpo com sucesso.');
     }
 
+    // Exportação Segura para Área de Transferência (WhatsApp)
     function copyItinerary() {
-      if (!state.itinerary.length) return showToast('Adicione itens antes de copiar!');
+      if (!state.itinerary.length) {
+        showToast('Adicione pelo menos um item ao roteiro antes de copiar!');
+        return;
+      }
+
+      const roomsNeeded = Math.ceil(state.people / 2);
       const lines = [
-        `🌿 *ROTEIRO NORTE DO PARANÁ* (${state.people} pessoas | ${state.days} diárias)`,
+        `🌿 *ROTEIRO NORTE DO PARANÁ — 2026*`,
+        `👥 ${state.people} viajante(s) | 🏨 ${state.days} diária(s) (${roomsNeeded} quarto(s))`,
         ``,
-        ...state.itinerary.map(i => `• ${i.name} (${i.city}/PR) - ${i.priceValue === 0 ? 'Gratuito' : 'R$ ' + i.priceValue}`),
+        `📍 *Locais Selecionados:*`,
+        ...state.itinerary.map(i => {
+          const qtyTag = i.type !== 'hoteis' && (i.qty || 1) > 1 ? ` (${i.qty}x)` : '';
+          const priceStr = i.priceValue === 0 ? 'Gratuito' : formatBRL(i.priceValue);
+          return `• ${i.name} (${i.city}/PR)${qtyTag} — ${priceStr}`;
+        }),
         ``,
-        `💰 *Orçamento Total Estimado:* ${document.getElementById('costTotal').textContent}`
+        `💰 *Resumo do Orçamento Estimado:*`,
+        `• Passeios: ${document.getElementById('costAttractions').textContent}`,
+        `• Hospedagem: ${document.getElementById('costHotels').textContent}`,
+        `• Alimentação: ${document.getElementById('costFood').textContent}`,
+        ...(state.includeFuel ? [`• Combustível estimado: ${document.getElementById('costFuel').textContent}`] : []),
+        `✅ *TOTAL GERAL:* ${document.getElementById('costTotal').textContent} (${document.getElementById('costPerPerson').textContent})`
       ];
-      navigator.clipboard.writeText(lines.join('
-'));
-      showToast('Roteiro e orçamento copiados!');
+
+      const formattedText = lines.join('\n');
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(formattedText)
+          .then(() => showToast('Roteiro formatado copiado para a área de transferência!'))
+          .catch(() => fallbackCopyText(formattedText));
+      } else {
+        fallbackCopyText(formattedText);
+      }
     }
 
-    function toggleDrawer() {
-      document.getElementById('itineraryDrawer').classList.toggle('hidden');
+    function fallbackCopyText(text) {
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      textarea.style.position = 'fixed';
+      textarea.style.opacity = '0';
+      document.body.appendChild(textarea);
+      textarea.select();
+      try {
+        document.execCommand('copy');
+        showToast('Roteiro formatado copiado para a área de transferência!');
+      } catch (err) {
+        showToast('Não foi possível copiar automaticamente.');
+      }
+      document.body.removeChild(textarea);
     }
 
-    function scrollToComparator() {
-      document.getElementById('comparatorSection').scrollIntoView({ behavior: 'smooth' });
+    function toggleDrawer(forceState) {
+      const drawer = document.getElementById('itineraryDrawer');
+      const shouldOpen = typeof forceState === 'boolean' ? forceState : drawer.classList.contains('hidden');
+      drawer.classList.toggle('hidden', !shouldOpen);
+      lockBodyScroll(shouldOpen);
     }
 
+    let toastTimer = null;
     function showToast(msg) {
       const toast = document.getElementById('toast');
       document.getElementById('toastMsg').textContent = msg;
       toast.classList.remove('hidden');
-      setTimeout(() => toast.classList.add('hidden'), 2400);
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.add('hidden'), 2800);
     }
 
-    init();
+    window.addEventListener('DOMContentLoaded', init);
   </script>
 </body>
 </html>
