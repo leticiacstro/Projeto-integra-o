@@ -1,4 +1,4 @@
-# ☕🌿 Descubra o Norte do Paraná — Guia Turístico & Comparador de Preços
+# ☕🌿 Descubra o Norte do Paraná — Guia Turístico 
 
 Aplicação web responsiva e interativa dedicada ao turismo no **Norte do Paraná** (Londrina, Maringá, Apucarana, Cornélio Procópio, Rolândia e Rota do Café), com comparador de preços de atrações, hotéis e restaurantes.
 
